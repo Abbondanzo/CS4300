@@ -1,0 +1,25 @@
+{
+  "name": "cs4300",
+  "version": "0.0.1",
+  "description": "Computer Graphics Fall 2020",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Abbondanzo/CS4300.git"
+  },
+  "keywords": [
+    "computer",
+    "graphics",
+    "npm"
+  ],
+  "author": "Peter Abbondanzo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Abbondanzo/CS4300/issues"
+  },
+  "homepage": "https://github.com/Abbondanzo/CS4300#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
