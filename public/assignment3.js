@@ -1,31 +1,3 @@
-const createProgramFromScripts = (
-  gl,
-  vertexShaderElementId,
-  fragmentShaderElementId
-) => {
-  // Get the strings for our GLSL shaders
-  const vertexShaderSource = document.querySelector(vertexShaderElementId).text;
-  const fragmentShaderSource = document.querySelector(fragmentShaderElementId)
-    .text;
-
-  // Create GLSL shaders, upload the GLSL source, compile the shaders
-  const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vertexShader, vertexShaderSource);
-  gl.compileShader(vertexShader);
-
-  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fragmentShader, fragmentShaderSource);
-  gl.compileShader(fragmentShader);
-
-  // Link the two shaders into a program
-  const program = gl.createProgram();
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-
-  return program;
-};
-
 const hexToRgb = (hex) => {
   const parseRgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   const rgb = {
@@ -47,7 +19,7 @@ const RED_RGB = hexToRgb(RED_HEX);
 const BLUE_HEX = "#0000FF";
 const BLUE_RGB = hexToRgb(BLUE_HEX);
 
-const shapes = [
+let shapes = [
   {
     type: RECTANGLE,
     position: {
@@ -58,11 +30,7 @@ const shapes = [
       width: 50,
       height: 50,
     },
-    color: {
-      red: BLUE_RGB.red,
-      green: BLUE_RGB.green,
-      blue: BLUE_RGB.blue,
-    },
+    color: BLUE_RGB,
   },
   {
     type: TRIANGLE,
@@ -74,11 +42,7 @@ const shapes = [
       width: 50,
       height: 50,
     },
-    color: {
-      red: RED_RGB.red,
-      green: RED_RGB.blue,
-      blue: RED_RGB.green,
-    },
+    color: RED_RGB,
   },
 ];
 
@@ -91,8 +55,14 @@ const init = () => {
   // get a reference to the canvas and WebGL context
   const canvas = document.querySelector("#canvas");
 
-  canvas.addEventListener("mousedown", doMouseDown, false);
-  document.querySelector("#addShape").addEventListener("click", addShape);
+  // Register event listeners
+  canvas.addEventListener("mousedown", onCanvasMouseDown, false);
+  document
+    .querySelector("#addShape")
+    .addEventListener("click", onAddShapeButtonClick);
+  document
+    .querySelector("#clearCanvas")
+    .addEventListener("click", onClearCanvasButtonClick);
 
   gl = canvas.getContext("webgl");
 
@@ -117,6 +87,10 @@ const init = () => {
 
   // configure canvas resolution and clear the canvas
   gl.uniform2f(uniformResolution, gl.canvas.width, gl.canvas.height);
+  clearCanvas();
+};
+
+const clearCanvas = () => {
   gl.clearColor(0, 0, 0, 0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 };
@@ -134,45 +108,20 @@ const render = () => {
       1
     );
 
-    if (shape.type === RECTANGLE) {
-      renderRectangle(shape);
-    } else if (shape.type === TRIANGLE) {
-      renderTriangle(shape);
+    switch (shape.type) {
+      case RECTANGLE:
+        renderRectangle(gl, shape);
+        break;
+      case TRIANGLE:
+        renderTriangle(gl, shape);
+        break;
+      default:
+        console.error("Rendering unhandled shape type", shape);
     }
   });
 };
 
-const renderRectangle = (rectangle) => {
-  const x1 = rectangle.position.x - rectangle.dimensions.width / 2;
-  const y1 = rectangle.position.y - rectangle.dimensions.height / 2;
-  const x2 = rectangle.position.x + rectangle.dimensions.width / 2;
-  const y2 = rectangle.position.y + rectangle.dimensions.height / 2;
-
-  gl.bufferData(
-    gl.ARRAY_BUFFER,
-    new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]),
-    gl.STATIC_DRAW
-  );
-
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
-};
-
-const renderTriangle = (triangle) => {
-  const x1 = triangle.position.x - triangle.dimensions.width / 2;
-  const y1 = triangle.position.y + triangle.dimensions.height / 2;
-  const x2 = triangle.position.x + triangle.dimensions.width / 2;
-  const y2 = triangle.position.y + triangle.dimensions.height / 2;
-  const x3 = triangle.position.x;
-  const y3 = triangle.position.y - triangle.dimensions.height / 2;
-
-  const float32Array = new Float32Array([x1, y1, x2, y2, x3, y3]);
-
-  gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW);
-
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-};
-
-const addRectangle = (center) => {
+const buildShape = (type, center) => {
   let x = parseInt(document.getElementById("x").value);
   let y = parseInt(document.getElementById("y").value);
   const width = parseInt(document.getElementById("width").value);
@@ -185,8 +134,8 @@ const addRectangle = (center) => {
     y = center.position.y;
   }
 
-  const rectangle = {
-    type: RECTANGLE,
+  return {
+    type,
     position: {
       x,
       y,
@@ -197,55 +146,52 @@ const addRectangle = (center) => {
     },
     color: colorRgb,
   };
+};
 
+const addRectangle = (center) => {
+  const rectangle = buildShape(RECTANGLE, center);
   shapes.push(rectangle);
   render();
 };
 
 const addTriangle = (center) => {
-  let x = parseInt(document.getElementById("x").value);
-  let y = parseInt(document.getElementById("y").value);
-  const width = parseInt(document.getElementById("width").value);
-  const height = parseInt(document.getElementById("height").value);
-  const colorHex = document.getElementById("color").value;
-  const colorRgb = hexToRgb(colorHex);
-
-  if (center) {
-    x = center.position.x;
-    y = center.position.y;
-  }
-  const triangle = {
-    type: TRIANGLE,
-    position: { x, y },
-    dimensions: { width, height },
-    color: colorRgb,
-  };
+  const triangle = buildShape(TRIANGLE, center);
   shapes.push(triangle);
   render();
 };
 
-const doMouseDown = (event) => {
+const addShape = (center) => {
+  const shape = document.querySelector("input[name='shape']:checked").value;
+
+  switch (shape) {
+    case RECTANGLE:
+      addRectangle(center);
+      break;
+    case TRIANGLE:
+      addTriangle(center);
+      break;
+    default:
+      console.error("Adding unhandled shape type", shape);
+  }
+};
+
+const onCanvasMouseDown = (event) => {
   const boundingRectangle = canvas.getBoundingClientRect();
   const x = event.clientX - boundingRectangle.left;
   const y = event.clientY - boundingRectangle.top;
   const center = { position: { x, y } };
-  const shape = document.querySelector("input[name='shape']:checked").value;
-
-  if (shape === "RECTANGLE") {
-    addRectangle(center);
-  } else if (shape === "TRIANGLE") {
-    addTriangle(center);
-  }
+  addShape(center);
 };
 
-const addShape = (event) => {
+const onAddShapeButtonClick = (event) => {
   event.preventDefault();
   event.stopPropagation();
+  addShape();
+};
 
-  const shape = document.querySelector("input[name='shape']:checked").value;
-  if (shape === "RECTANGLE") {
-    addRectangle();
-  } else if (shape === "TRIANGLE") {
-    addTriangle();
-  }
+const onClearCanvasButtonClick = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  shapes = [];
+  clearCanvas();
 };
