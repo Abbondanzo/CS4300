@@ -26,7 +26,27 @@ const createProgramFromScripts = (
   return program;
 };
 
+const hexToRgb = (hex) => {
+  const parseRgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const rgb = {
+    red: parseInt(parseRgb[1], 16),
+    green: parseInt(parseRgb[2], 16),
+    blue: parseInt(parseRgb[3], 16),
+  };
+  rgb.red /= 256;
+  rgb.green /= 256;
+  rgb.blue /= 256;
+  return rgb;
+};
+
 const RECTANGLE = "RECTANGLE";
+const TRIANGLE = "TRIANGLE";
+
+const RED_HEX = "#FF0000";
+const RED_RGB = hexToRgb(RED_HEX);
+const BLUE_HEX = "#0000FF";
+const BLUE_RGB = hexToRgb(BLUE_HEX);
+
 const shapes = [
   {
     type: RECTANGLE,
@@ -39,9 +59,25 @@ const shapes = [
       height: 50,
     },
     color: {
-      red: Math.random(),
-      green: Math.random(),
-      blue: Math.random(),
+      red: BLUE_RGB.red,
+      green: BLUE_RGB.green,
+      blue: BLUE_RGB.blue,
+    },
+  },
+  {
+    type: TRIANGLE,
+    position: {
+      x: 300,
+      y: 100,
+    },
+    dimensions: {
+      width: 50,
+      height: 50,
+    },
+    color: {
+      red: RED_RGB.red,
+      green: RED_RGB.blue,
+      blue: RED_RGB.green,
     },
   },
 ];
@@ -54,6 +90,10 @@ let bufferCoords;
 const init = () => {
   // get a reference to the canvas and WebGL context
   const canvas = document.querySelector("#canvas");
+
+  canvas.addEventListener("mousedown", doMouseDown, false);
+  document.querySelector("#addShape").addEventListener("click", addShape);
+
   gl = canvas.getContext("webgl");
 
   // create and use a GLSL program
@@ -96,6 +136,8 @@ const render = () => {
 
     if (shape.type === RECTANGLE) {
       renderRectangle(shape);
+    } else if (shape.type === TRIANGLE) {
+      renderTriangle(shape);
     }
   });
 };
@@ -115,33 +157,95 @@ const renderRectangle = (rectangle) => {
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 };
 
-const addRectangle = (e) => {
-  // Prevent form button from submitting
-  e.preventDefault();
-  e.stopPropagation();
+const renderTriangle = (triangle) => {
+  const x1 = triangle.position.x - triangle.dimensions.width / 2;
+  const y1 = triangle.position.y + triangle.dimensions.height / 2;
+  const x2 = triangle.position.x + triangle.dimensions.width / 2;
+  const y2 = triangle.position.y + triangle.dimensions.height / 2;
+  const x3 = triangle.position.x;
+  const y3 = triangle.position.y - triangle.dimensions.height / 2;
 
-  const x = parseInt(document.getElementById("x").value);
-  const y = parseInt(document.getElementById("y").value);
+  const float32Array = new Float32Array([x1, y1, x2, y2, x3, y3]);
+
+  gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW);
+
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+};
+
+const addRectangle = (center) => {
+  let x = parseInt(document.getElementById("x").value);
+  let y = parseInt(document.getElementById("y").value);
   const width = parseInt(document.getElementById("width").value);
   const height = parseInt(document.getElementById("height").value);
+  const colorHex = document.getElementById("color").value;
+  const colorRgb = hexToRgb(colorHex);
+
+  if (center) {
+    x = center.position.x;
+    y = center.position.y;
+  }
 
   const rectangle = {
     type: RECTANGLE,
     position: {
-      x: x,
-      y: y,
+      x,
+      y,
     },
     dimensions: {
       width,
       height,
     },
-    color: {
-      red: Math.random(),
-      green: Math.random(),
-      blue: Math.random(),
-    },
+    color: colorRgb,
   };
 
   shapes.push(rectangle);
   render();
+};
+
+const addTriangle = (center) => {
+  let x = parseInt(document.getElementById("x").value);
+  let y = parseInt(document.getElementById("y").value);
+  const width = parseInt(document.getElementById("width").value);
+  const height = parseInt(document.getElementById("height").value);
+  const colorHex = document.getElementById("color").value;
+  const colorRgb = hexToRgb(colorHex);
+
+  if (center) {
+    x = center.position.x;
+    y = center.position.y;
+  }
+  const triangle = {
+    type: TRIANGLE,
+    position: { x, y },
+    dimensions: { width, height },
+    color: colorRgb,
+  };
+  shapes.push(triangle);
+  render();
+};
+
+const doMouseDown = (event) => {
+  const boundingRectangle = canvas.getBoundingClientRect();
+  const x = event.clientX - boundingRectangle.left;
+  const y = event.clientY - boundingRectangle.top;
+  const center = { position: { x, y } };
+  const shape = document.querySelector("input[name='shape']:checked").value;
+
+  if (shape === "RECTANGLE") {
+    addRectangle(center);
+  } else if (shape === "TRIANGLE") {
+    addTriangle(center);
+  }
+};
+
+const addShape = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const shape = document.querySelector("input[name='shape']:checked").value;
+  if (shape === "RECTANGLE") {
+    addRectangle();
+  } else if (shape === "TRIANGLE") {
+    addTriangle();
+  }
 };
