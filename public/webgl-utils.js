@@ -1,4 +1,4 @@
-const createProgramFromScripts = (
+const _createProgramFromScripts = (
   gl,
   vertexShaderElementId,
   fragmentShaderElementId
@@ -26,7 +26,7 @@ const createProgramFromScripts = (
   return program;
 };
 
-const renderRectangle = (gl, rectangle) => {
+const _renderRectangle = (gl, rectangle) => {
   const x1 = rectangle.position.x - rectangle.dimensions.width / 2;
   const y1 = rectangle.position.y - rectangle.dimensions.height / 2;
   const x2 = rectangle.position.x + rectangle.dimensions.width / 2;
@@ -40,7 +40,7 @@ const renderRectangle = (gl, rectangle) => {
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 };
 
-const renderTriangle = (gl, triangle) => {
+const _renderTriangle = (gl, triangle) => {
   const x1 = triangle.position.x - triangle.dimensions.width / 2;
   const y1 = triangle.position.y + triangle.dimensions.height / 2;
   const x2 = triangle.position.x + triangle.dimensions.width / 2;
@@ -52,4 +52,24 @@ const renderTriangle = (gl, triangle) => {
 
   gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
+};
+
+const _hexToRgb = (hex) => {
+  const parseRgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const rgb = {
+    red: parseInt(parseRgb[1], 16),
+    green: parseInt(parseRgb[2], 16),
+    blue: parseInt(parseRgb[3], 16),
+  };
+  rgb.red /= 256;
+  rgb.green /= 256;
+  rgb.blue /= 256;
+  return rgb;
+};
+
+const webglUtils = {
+  createProgramFromScripts: _createProgramFromScripts,
+  renderRectangle: _renderRectangle,
+  renderTriangle: _renderTriangle,
+  hexToRgb: _hexToRgb,
 };
