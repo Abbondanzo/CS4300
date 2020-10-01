@@ -55,7 +55,10 @@ module.exports = {
     ignored: /node_modules/,
   },
 
-  entry: assignmentEntryPoints,
+  entry: {
+    home: "./src/home/index.ts",
+    ...assignmentEntryPoints,
+  },
 
   output: {
     pathinfo: true,
@@ -101,7 +104,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/home/index.html",
-      chunks: ["main"],
+      chunks: ["home"],
     }),
     ...assignmentHTMLPlugins,
   ],
