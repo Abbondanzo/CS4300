@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Interacting with WebGL</title>
+    <title>A WebGL Mini CAD</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -28,6 +28,7 @@
         vec2 zeroToOne = a_coords / u_resolution;
         vec2 zeroToTwo = zeroToOne * 2.0;
         vec2 minusOneToOne = zeroToTwo - 1.0;
+        // Modify this to change origin
         vec2 clipSpace = minusOneToOne * vec2(1, -1);
         gl_Position = vec4(clipSpace, 0, 1);
       }
@@ -39,22 +40,19 @@
         gl_FragColor = u_color;
       }
     </script>
-
-    <script type="text/javascript" src="webgl-utils.js"></script>
-    <script type="text/javascript" src="assignment3.js"></script>
   </head>
-  <body onload="init();render()">
+  <body>
     <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">
-            Interacting with WebGL
+            A WebGL Mini CAD
           </li>
         </ol>
       </nav>
 
-      <h1>Interacting with WebGL</h1>
+      <h1>A WebGL Mini CAD</h1>
       <canvas id="canvas" width="500px" height="300px"></canvas>
 
       <br />
@@ -70,7 +68,6 @@
             <input class="form-control" id="width" value="20" />
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="y">Y:</label>
@@ -82,44 +79,7 @@
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="color">Color:</label>
-            <input class="form-control" id="color" type="color" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="col-form-label">Shape:</label>
-            <br />
-            <div class="form-check form-check-inline">
-              <input
-                id="radio-rectangle"
-                name="shape"
-                class="form-check-input"
-                type="radio"
-                value="RECTANGLE"
-                checked
-              />
-              <label class="form-check-label" for="radio-rectangle"
-                >Rectangle</label
-              >
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                id="radio-triangle"
-                name="shape"
-                class="form-check-input"
-                type="radio"
-                value="TRIANGLE"
-              />
-              <label class="form-check-label" for="radio-triangle"
-                >Triangle</label
-              >
-            </div>
-          </div>
-        </div>
-
-        <button id="addShape" class="btn btn-primary">Add Shape</button>
-        <button id="clearCanvas" class="btn btn-light">Clear Canvas</button>
+        <button id="addRectangle" class="btn btn-primary">Add Rectangle</button>
       </form>
     </div>
   </body>

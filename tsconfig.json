@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": false,
+    "esModuleInterop": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "outDir": "dist",
+    "paths": { "@common/*": ["./src/common/*"] },
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "typeRoots": ["./types/", "./node_modules/@types/"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
