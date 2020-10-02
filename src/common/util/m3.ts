@@ -66,3 +66,5 @@ const m3 = {
     return m3.multiply(m, m3.scaling(sx, sy));
   },
 };
+
+export default m3;
