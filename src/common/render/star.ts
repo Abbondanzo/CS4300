@@ -1,3 +1,12 @@
+/**
+ *
+ * Renders a 5-pointed star inside the given webGL context.
+ *
+ * 2:33am geometry is good geometry
+ *
+ * @param gl rendering context
+ * @param star dimensions holder
+ */
 export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
   const radius = star.dimensions.height / 2;
   const dimenScale = star.dimensions.width / star.dimensions.height;
@@ -17,9 +26,7 @@ export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
   const x6 = cx;
   const y6 =
     cy + radius * (Math.tan((1 / 5) * Math.PI) - Math.tan((1 / 10) * Math.PI));
-  // 1, 3, 6
-  // 1, 6, 4
-  // 5, 2, 6
+
   const t1 = [x1, y1, x3, y3, x6, y6];
   const t2 = [x1, y1, x6, y6, x4, y4];
   const t3 = [x5, y5, x2, y2, x6, y6];
