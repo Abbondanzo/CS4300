@@ -13,23 +13,22 @@ export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
   const increment = (Math.PI * 2) / 5;
   const cx = star.position.x;
   const cy = star.position.y;
-  const x1 = cx;
-  const y1 = cy - radius;
-  const x2 = cx + radius * Math.cos(Math.PI / 2 - increment) * dimenScale;
-  const y2 = cy - radius * Math.sin(Math.PI / 2 - increment);
-  const x3 = cx + radius * Math.cos(Math.PI / 2 - 2 * increment) * dimenScale;
-  const y3 = cy - radius * Math.sin(Math.PI / 2 - 2 * increment);
-  const x4 = cx + radius * Math.cos(Math.PI / 2 - 3 * increment) * dimenScale;
-  const y4 = cy - radius * Math.sin(Math.PI / 2 - 3 * increment);
-  const x5 = cx + radius * Math.cos(Math.PI / 2 - 4 * increment) * dimenScale;
-  const y5 = cy - radius * Math.sin(Math.PI / 2 - 4 * increment);
-  const x6 = cx;
-  const y6 =
-    cy + radius * (Math.tan((1 / 5) * Math.PI) - Math.tan((1 / 10) * Math.PI));
-
-  const t1 = [x1, y1, x3, y3, x6, y6];
-  const t2 = [x1, y1, x6, y6, x4, y4];
-  const t3 = [x5, y5, x2, y2, x6, y6];
+  // Generate points from top, clockwise
+  const starPoints = {};
+  for (let n = 0; n < 5; n++) {
+    const xn = cx + radius * Math.cos(Math.PI / 2 - n * increment) * dimenScale;
+    const yn = cy - radius * Math.sin(Math.PI / 2 - n * increment);
+    starPoints[`${n + 1}`] = [xn, yn];
+  }
+  // Generate sixth point below center
+  starPoints["6"] = [
+    cx,
+    cy + radius * (Math.tan((1 / 5) * Math.PI) - Math.tan((1 / 10) * Math.PI)),
+  ];
+  // Produce three triangles that compose the star
+  const t1 = [...starPoints["1"], ...starPoints["3"], ...starPoints["6"]];
+  const t2 = [...starPoints["1"], ...starPoints["6"], ...starPoints["4"]];
+  const t3 = [...starPoints["5"], ...starPoints["2"], ...starPoints["6"]];
 
   gl.bufferData(
     gl.ARRAY_BUFFER,
