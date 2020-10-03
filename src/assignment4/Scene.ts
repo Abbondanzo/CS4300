@@ -67,6 +67,11 @@ export default class Scene {
       0
     );
 
+    if (shapes.length === 0) {
+      this.clearCanvas();
+      return;
+    }
+
     shapes.forEach((shape) => {
       this.gl.uniform4f(
         this.uniformColor,
