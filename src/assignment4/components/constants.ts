@@ -6,10 +6,10 @@ import { hexToRgb } from "@common/util/hexToRgb";
 
 const ORIGIN: BasicCanvas.Position = { x: 0, y: 0 };
 const SIZE_ONE: BasicCanvas.Dimensions = { width: 1, height: 1 };
-const RED_RGB = hexToRgb("#FF0000");
+export const RED_RGB = hexToRgb("#FF0000");
 const BLUE_RGB = hexToRgb("#0000FF");
 
-export const BLUE_RECTANGE = buildRectangle({
+export const BLUE_RECTANGLE = buildRectangle({
   position: ORIGIN,
   dimensions: SIZE_ONE,
   color: BLUE_RGB,

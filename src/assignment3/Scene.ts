@@ -8,14 +8,18 @@ export default class Scene {
   private readonly uniformColor: WebGLUniformLocation;
   private readonly bufferCoords: WebGLBuffer;
 
-  constructor(canvasId: string, vertexId: string, fragmentId: string) {
+  constructor(canvasId: string, vertexShader: string, fragmentShader: string) {
     // get a reference to the canvas and WebGL context
     const canvas = document.querySelector(canvasId) as HTMLCanvasElement;
 
     this.gl = canvas.getContext("webgl");
 
     // create and use a GLSL program
-    const program = createProgramFromScripts(this.gl, vertexId, fragmentId);
+    const program = createProgramFromScripts(
+      this.gl,
+      vertexShader,
+      fragmentShader
+    );
     this.gl.useProgram(program);
 
     // get reference to GLSL attributes and uniforms

@@ -2,6 +2,7 @@ import { getElementValue } from "@common/form/getElementValue";
 import { buildRectangle } from "@common/model/basicShapeBuilders";
 import { renderRectangle } from "@common/render/rectangle";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
+import { getScriptContentsById } from "@common/setup/getScriptContentsById";
 
 const RECTANGLE = "RECTANGLE";
 const shapes: BasicCanvas.Shape[] = [
@@ -35,8 +36,8 @@ const init = () => {
   // create and use a GLSL program
   const program = createProgramFromScripts(
     gl,
-    "#vertex-shader-2d",
-    "#fragment-shader-2d"
+    getScriptContentsById("vertex-shader-2d"),
+    getScriptContentsById("fragment-shader-2d")
   );
   gl.useProgram(program);
 

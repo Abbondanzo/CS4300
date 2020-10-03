@@ -6,7 +6,7 @@
 // import { hexToRgb } from "@common/util/hexToRgb";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components";
+import App from "./components/App";
 
 // import Scene from "./Scene";
 

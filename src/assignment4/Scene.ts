@@ -12,14 +12,19 @@ export default class Scene {
   private readonly uniformColor: WebGLUniformLocation;
   private readonly bufferCoords: WebGLBuffer;
 
-  constructor(canvasId: string, vertexId: string, fragmentId: string) {
-    // get a reference to the canvas and WebGL context
-    const canvas = document.querySelector(canvasId) as HTMLCanvasElement;
-
+  private constructor(
+    canvas: HTMLCanvasElement,
+    vertexShaderSource: string,
+    fragmentShaderSource: string
+  ) {
     this.gl = canvas.getContext("webgl");
 
     // create and use a GLSL program
-    const program = createProgramFromScripts(this.gl, vertexId, fragmentId);
+    const program = createProgramFromScripts(
+      this.gl,
+      vertexShaderSource,
+      fragmentShaderSource
+    );
     this.gl.useProgram(program);
 
     // get reference to GLSL attributes and uniforms
@@ -46,7 +51,7 @@ export default class Scene {
     this.clearCanvas();
   }
 
-  clearCanvas() {
+  private clearCanvas() {
     this.gl.clearColor(0, 0, 0, 0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
@@ -98,5 +103,30 @@ export default class Scene {
           console.error("Rendering unhandled shape type", shape);
       }
     });
+  }
+
+  /**
+   * ========================================
+   * Scenes are singletons
+   * ========================================
+   */
+  private static instance?: Scene;
+  static getInstance() {
+    if (!Scene.instance) {
+      throw new Error("Scene not initialized with call to `init`");
+    }
+    return Scene.instance;
+  }
+  static init(
+    canvas: HTMLCanvasElement,
+    vertexShaderSource: string,
+    fragmentShaderSource: string
+  ) {
+    Scene.instance = new Scene(
+      canvas,
+      vertexShaderSource,
+      fragmentShaderSource
+    );
+    return Scene.instance;
   }
 }

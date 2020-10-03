@@ -3,6 +3,7 @@ import {
   buildRectangle,
   buildTriangle,
 } from "@common/model/basicShapeBuilders";
+import { getScriptContentsById } from "@common/setup/getScriptContentsById";
 import { hexToRgb } from "@common/util/hexToRgb";
 
 import Scene from "./Scene";
@@ -40,7 +41,11 @@ let shapes: BasicCanvas.Shape[] = [
 let scene: Scene;
 
 const init = () => {
-  scene = new Scene("#canvas", "#vertex-shader-2d", "#fragment-shader-2d");
+  scene = new Scene(
+    "#canvas",
+    getScriptContentsById("vertex-shader-2d"),
+    getScriptContentsById("fragment-shader-2d")
+  );
   const canvas = document.querySelector("#canvas") as HTMLCanvasElement;
   canvas.addEventListener("mousedown", onCanvasMouseDown, false);
 };

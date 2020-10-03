@@ -27,3 +27,10 @@ export const buildRectangle = buildBasicShape("RECTANGLE");
 export const buildTriangle = buildBasicShape("TRIANGLE");
 export const buildStar = buildBasicShape("STAR");
 export const buildCircle = buildBasicShape("CIRCLE");
+
+export const buildShape = (
+  type: ShapeType,
+  properties: Partial<BasicCanvas.Shape>
+) => {
+  return buildBasicShape(type)(properties);
+};
