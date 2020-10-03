@@ -4,7 +4,7 @@ import {
   buildTriangle,
 } from "@common/model/basicShapeBuilders";
 import { getScriptContentsById } from "@common/setup/getScriptContentsById";
-import { hexToRgb } from "@common/util/hexToRgb";
+import { hexToRgb } from "@common/util/colors";
 
 import Scene from "./Scene";
 

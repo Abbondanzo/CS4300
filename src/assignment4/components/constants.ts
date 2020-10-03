@@ -2,11 +2,11 @@ import {
   buildRectangle,
   buildTriangle,
 } from "@common/model/basicShapeBuilders";
-import { hexToRgb } from "@common/util/hexToRgb";
+import { hexToRgb } from "@common/util/colors";
 
 const ORIGIN: BasicCanvas.Position = { x: 0, y: 0 };
 const SIZE_ONE: BasicCanvas.Dimensions = { width: 1, height: 1 };
-export const RED_RGB = hexToRgb("#FF0000");
+const RED_RGB = hexToRgb("#FF0000");
 const BLUE_RGB = hexToRgb("#0000FF");
 
 export const BLUE_RECTANGLE = buildRectangle({
