@@ -1,5 +1,4 @@
 /**
- *
  * Renders a 5-pointed star inside the given webGL context.
  *
  * 2:33am geometry is good geometry
@@ -16,8 +15,9 @@ export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
   // Generate points from top, clockwise
   const starPoints = {};
   for (let n = 0; n < 5; n++) {
-    const xn = cx + radius * Math.cos(Math.PI / 2 - n * increment) * dimenScale;
-    const yn = cy - radius * Math.sin(Math.PI / 2 - n * increment);
+    const angle = Math.PI / 2 - n * increment;
+    const xn = cx + radius * Math.cos(angle) * dimenScale;
+    const yn = cy - radius * Math.sin(angle);
     starPoints[`${n + 1}`] = [xn, yn];
   }
   // Generate sixth point below center

@@ -1,47 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>WebGL Transformations</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <style>
-      canvas {
-        border: 1px solid gray;
-        text-align: center;
-      }
-      .container {
-        width: 540px;
-        margin: 0 auto;
-        text-align: center;
-      }
-      form {
-        text-align: left;
-      }
-    </style>
-    <script id="vertex-shader-2d" type="x-shader/x-vertex">
-      attribute vec2 a_coords;
-      uniform mat3 u_matrix;
-      void main() {
-       // multiply coordinates by a transformation matrix
-       gl_Position = vec4((u_matrix * vec3(a_coords, 1.0)).xy, 0.0, 1.0);
-      }
-    </script>
-    <script id="fragment-shader-2d" type="x-shader/x-fragment">
-      precision mediump float;
-      uniform vec4 u_color;
-      void main() {
-        gl_FragColor = u_color;
-      }
-    </script>
-
-    <script type="application/javascript" src="webgl-utils.js"></script>
-    <script type="application/javascript" src="m3.js"></script>
-    <script type="application/javascript" src="assignment4.js"></script>
-  </head>
-  <body onload="init();render()">
-    <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -119,5 +75,3 @@
         <button id="clearCanvas" class="btn btn-light">Clear Canvas</button>
       </form>
     </div>
-  </body>
-</html>

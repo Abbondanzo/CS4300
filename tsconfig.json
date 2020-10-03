@@ -5,8 +5,10 @@
     "baseUrl": ".",
     "declaration": false,
     "esModuleInterop": true,
+    "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
+    "moduleResolution": "node",
     "outDir": "dist",
     "paths": { "@common/*": ["./src/common/*"] },
     "skipLibCheck": true,
@@ -14,6 +16,5 @@
     "target": "esnext",
     "typeRoots": ["./types/", "./node_modules/@types/"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

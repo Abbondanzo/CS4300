@@ -4,6 +4,11 @@
  * - index.html
  * - index.ts
  */
-const assignments = ["assignment1", "assignment2", "assignment3"];
+const assignments = [
+  "assignment1",
+  "assignment2",
+  "assignment3",
+  "assignment4",
+];
 
 module.exports = { assignments };
