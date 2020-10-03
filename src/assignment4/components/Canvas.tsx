@@ -20,8 +20,8 @@ const Canvas = ({ shapes, onClick }: Props) => {
 
   const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const boundingRectangle = (event.target as HTMLCanvasElement).getBoundingClientRect();
-    const x = event.clientX - boundingRectangle.left;
-    const y = event.clientY - boundingRectangle.top;
+    const x = Math.round(event.clientX - boundingRectangle.left);
+    const y = Math.round(event.clientY - boundingRectangle.top);
     onClick({ x, y });
   };
   return (
