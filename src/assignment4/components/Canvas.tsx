@@ -29,6 +29,7 @@ const Canvas = ({ shapes, onClick }: Props) => {
       id="canvas"
       width="500px"
       height="300px"
+      className="mb-3"
       onMouseDown={onMouseDown}
       ref={canvasRef}
     ></canvas>

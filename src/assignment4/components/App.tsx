@@ -94,14 +94,14 @@ class App extends Component<Props, State> {
   renderEditSection() {
     const activeShape = this.getActiveShape();
     return (
-      <div className="row row-cols-1 row-cols-md-2">
-        <div className="col mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Shape List</h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                Pick a shape to edit
-              </h6>
+      <div className="card-deck">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Shape List</h5>
+            <h6 className="card-subtitle mb-2 text-muted">
+              Pick a shape to edit
+            </h6>
+            <div style={{ maxHeight: 400, overflow: "auto" }}>
               <ShapeList
                 shapes={this.state.shapes}
                 activeShapeIndex={this.state.selectedShapeIndex}
@@ -110,23 +110,21 @@ class App extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div className="col mb-4">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Shape Edits</h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                Perform edits on the selected shape
-              </h6>
-              {activeShape ? (
-                <EditShape
-                  activeShape={activeShape}
-                  onUpdate={this.onUpdateShape}
-                  onDelete={this.onDeleteShape}
-                />
-              ) : (
-                <p>Please add a shape to continue</p>
-              )}
-            </div>
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Shape Edits</h5>
+            <h6 className="card-subtitle mb-2 text-muted">
+              Perform edits on the selected shape
+            </h6>
+            {activeShape ? (
+              <EditShape
+                activeShape={activeShape}
+                onUpdate={this.onUpdateShape}
+                onDelete={this.onDeleteShape}
+              />
+            ) : (
+              <p>Please add a shape to continue</p>
+            )}
           </div>
         </div>
       </div>
@@ -146,7 +144,7 @@ class App extends Component<Props, State> {
 
   render() {
     return (
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
+      <div className="mb-4" style={{ maxWidth: 720, margin: "0 auto" }}>
         <div style={{ textAlign: "center" }}>
           <NavBar title="WebGL Transformations" />
           <Canvas onClick={this.onAddShape} shapes={this.state.shapes} />
