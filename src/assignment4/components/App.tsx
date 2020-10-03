@@ -4,8 +4,9 @@ import React, { Component } from "react";
 import { objectEquality } from "../utils/objectEquality";
 import Canvas from "./Canvas";
 
-import { BLUE_RECTANGLE, RED_RGB, RED_TRIANGLE } from "./constants";
+import { BLUE_RECTANGLE, RED_TRIANGLE } from "./constants";
 import EditShape from "./form/EditShape";
+import ShapeColorSelect from "./form/ShapeColorSelect";
 import ShapeList from "./form/ShapeList";
 import ShapeTypeSelect from "./form/ShapeTypeSelect";
 
@@ -25,12 +26,15 @@ class App extends Component<Props, State> {
       shapes: [BLUE_RECTANGLE, RED_TRIANGLE],
       selectedShapeIndex: 0,
       addShapeType: "RECTANGLE",
-      addShapeColor: RED_RGB,
+      addShapeColor: { red: 0, green: 1, blue: 0 },
     };
   }
 
   onAddShapeTypeSelect = (addShapeType: ShapeType) =>
     this.setState({ addShapeType });
+
+  onAddShapeColorSelect = (addShapeColor: BasicCanvas.Color) =>
+    this.setState({ addShapeColor });
 
   renderAddShapeCard() {
     return (
@@ -46,6 +50,10 @@ class App extends Component<Props, State> {
               <ShapeTypeSelect
                 selected={this.state.addShapeType}
                 onSelect={this.onAddShapeTypeSelect}
+              />
+              <ShapeColorSelect
+                shapeColor={this.state.addShapeColor}
+                setShapeColor={this.onAddShapeColorSelect}
               />
             </div>
           </div>
@@ -70,7 +78,21 @@ class App extends Component<Props, State> {
     this.setState({ shapes: newShapes });
   };
 
+  onDeleteShape = () => {
+    const shapes = [...this.state.shapes];
+    shapes.splice(this.state.selectedShapeIndex, 1);
+    let selectedShapeIndex = this.state.selectedShapeIndex;
+    if (selectedShapeIndex >= shapes.length) {
+      selectedShapeIndex = Math.max(shapes.length - 1, 0);
+    }
+    this.setState({
+      shapes,
+      selectedShapeIndex,
+    });
+  };
+
   renderEditSection() {
+    const activeShape = this.getActiveShape();
     return (
       <div className="row row-cols-1 row-cols-md-2">
         <div className="col mb-4">
@@ -95,10 +117,15 @@ class App extends Component<Props, State> {
               <h6 className="card-subtitle mb-2 text-muted">
                 Perform edits on the selected shape
               </h6>
-              <EditShape
-                activeShape={this.getActiveShape()}
-                onUpdate={this.onUpdateShape}
-              />
+              {activeShape ? (
+                <EditShape
+                  activeShape={activeShape}
+                  onUpdate={this.onUpdateShape}
+                  onDelete={this.onDeleteShape}
+                />
+              ) : (
+                <p>Please add a shape to continue</p>
+              )}
             </div>
           </div>
         </div>

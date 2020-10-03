@@ -1,4 +1,6 @@
 import { hexToRgb, rgbToHex } from "@common/util/colors";
+import { degreesToRadians, radiansToDegrees } from "@common/util/degrees";
+import { truncate } from "@common/util/numbers";
 import React, { Component } from "react";
 
 interface Props {
@@ -13,7 +15,7 @@ class EditShape extends Component<Props> {
     stateItemKey: string
   ) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = this.props.activeShape[shapeAttr];
-    const eventValue = Number(event.target.value);
+    const eventValue = truncate(Number(event.target.value));
     const newValue = { ...currentValue, [stateItemKey]: eventValue };
     const newShape = { ...this.props.activeShape, [shapeAttr]: newValue };
     this.props.onUpdate(newShape);
@@ -21,10 +23,9 @@ class EditShape extends Component<Props> {
 
   onRotationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
-    const angleInDegrees = ((360 - value) * Math.PI) / 180;
     const newShape = {
       ...this.props.activeShape,
-      rotation: { z: angleInDegrees },
+      rotation: { z: degreesToRadians(value) },
     };
     this.props.onUpdate(newShape);
   };
@@ -92,7 +93,7 @@ class EditShape extends Component<Props> {
               className="form-control"
               id="rz"
               step="2"
-              value={rotation.z}
+              value={radiansToDegrees(rotation.z)}
               onChange={this.onRotationChange}
             />
           </div>
