@@ -63,7 +63,7 @@ module.exports = {
   output: {
     pathinfo: true,
     filename: "static/js/[name].js",
-    sourceMapFilename: "static/maps/[file].map[query]",
+    sourceMapFilename: "static/maps/[name].js.map[query]",
     chunkFilename: "static/js/[name].chunk.js",
     globalObject: "this",
   },
