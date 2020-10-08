@@ -1,6 +1,5 @@
+import { toFirstUpperCase } from "@common/util/strings";
 import React from "react";
-
-import { toFirstUpperCase } from "../../utils/toFirstUpperCase";
 
 interface Props {
   selected: Canvas2D.ShapeType;
