@@ -1,11 +1,11 @@
 {
   "name": "cs4300-f20-abbondanzo",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Computer Graphics Fall 2020",
   "main": "server.js",
   "scripts": {
-    "build": "webpack --mode=production",
-    "dev": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production --progress",
+    "dev": "webpack-dev-server --progress --mode=development",
     "serve": "node server.js"
   },
   "repository": {

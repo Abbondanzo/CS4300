@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -19,15 +20,34 @@ const assignmentEntryPoints = assignments.reduce(
   {}
 );
 
+const stats = {
+  assetsSort: "chunks",
+  entrypoints: false,
+  excludeAssets: /\.map$/,
+  colors: true,
+  version: false,
+  hash: false,
+  timings: false,
+  cached: false,
+  cachedAssets: false,
+  chunkModules: false,
+  chunks: false,
+  entrypoints: false,
+  modules: false,
+};
+
+// If we have collisions, I'll eat my socks
+const hashCode = (value) => {
+  return crypto.createHash("md5").update(value).digest("hex").slice(0, 12);
+};
+
+console.log("Your CPU fan sounds kinda quiet. Lemme fix that...\n\n");
+
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   devtool: "source-map",
 
-  stats: {
-    assetsSort: "chunks",
-    version: false,
-    entrypoints: false,
-  },
+  stats,
 
   devServer: {
     publicPath: "/",
@@ -35,19 +55,7 @@ module.exports = {
     hot: true,
     inline: true,
     contentBase: path.join(__dirname, "public"),
-    stats: {
-      assetsSort: "chunks",
-      colors: true,
-      version: false,
-      hash: false,
-      timings: false,
-      cached: false,
-      cachedAssets: false,
-      chunkModules: false,
-      chunks: false,
-      entrypoints: false,
-      modules: false,
-    },
+    stats,
   },
 
   watchOptions: {
@@ -72,11 +80,11 @@ module.exports = {
     minimize: !isDevelopment,
     splitChunks: {
       chunks: "all",
-      name: true,
+      name(_, chunks, cacheGroupKey) {
+        const hashChunks = hashCode(chunks.join("-"));
+        return `${cacheGroupKey}-${hashChunks}`;
+      },
     },
-    // runtimeChunk: {
-    //   name: (entrypoint) => `runtime-${entrypoint.name}`,
-    // },
   },
 
   resolve: {
