@@ -13,7 +13,7 @@ const RED_RGB = hexToRgb(RED_HEX);
 const BLUE_HEX = "#0000FF";
 const BLUE_RGB = hexToRgb(BLUE_HEX);
 
-let shapes: BasicCanvas.Shape[] = [
+let shapes: Canvas2D.Shape[] = [
   buildRectangle({
     position: {
       x: 200,
@@ -50,7 +50,7 @@ const init = () => {
   canvas.addEventListener("mousedown", onCanvasMouseDown, false);
 };
 
-const addShape = (position?: BasicCanvas.Position) => {
+const addShape = (position?: Canvas2D.Position) => {
   const shapeType = getElementValue("input[name='shape']:checked");
   const x = parseInt(getElementValue("#x"));
   const y = parseInt(getElementValue("#y"));

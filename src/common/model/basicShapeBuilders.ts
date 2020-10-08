@@ -1,6 +1,6 @@
-const buildBasicShape = (type: ShapeType) => (
-  properties: Partial<BasicCanvas.Shape> = {}
-): BasicCanvas.Shape => {
+const buildBasicShape = (type: Canvas2D.ShapeType) => (
+  properties: Partial<Canvas2D.Shape> = {}
+): Canvas2D.Shape => {
   return {
     type,
     position: {
@@ -29,8 +29,8 @@ export const buildStar = buildBasicShape("STAR");
 export const buildCircle = buildBasicShape("CIRCLE");
 
 export const buildShape = (
-  type: ShapeType,
-  properties: Partial<BasicCanvas.Shape>
+  type: Canvas2D.ShapeType,
+  properties: Partial<Canvas2D.Shape>
 ) => {
   return buildBasicShape(type)(properties);
 };

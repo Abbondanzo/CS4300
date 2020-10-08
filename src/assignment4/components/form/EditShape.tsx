@@ -4,8 +4,8 @@ import { truncate } from "@common/util/numbers";
 import React, { Component } from "react";
 
 interface Props {
-  activeShape: BasicCanvas.Shape;
-  onUpdate: (shape: BasicCanvas.Shape) => void;
+  activeShape: Canvas2D.Shape;
+  onUpdate: (shape: Canvas2D.Shape) => void;
   onDelete: () => void;
 }
 

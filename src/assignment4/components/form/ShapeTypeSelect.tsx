@@ -3,11 +3,16 @@ import React from "react";
 import { toFirstUpperCase } from "../../utils/toFirstUpperCase";
 
 interface Props {
-  selected: ShapeType;
-  onSelect: (shape: ShapeType) => void;
+  selected: Canvas2D.ShapeType;
+  onSelect: (shape: Canvas2D.ShapeType) => void;
 }
 
-const SHAPE_TYPES: ShapeType[] = ["RECTANGLE", "TRIANGLE", "STAR", "CIRCLE"];
+const SHAPE_TYPES: Canvas2D.ShapeType[] = [
+  "RECTANGLE",
+  "TRIANGLE",
+  "STAR",
+  "CIRCLE",
+];
 
 const ShapeTypeSelect = ({ selected, onSelect }: Props) => {
   const onChange = (event: React.ChangeEvent<HTMLFieldSetElement>) => {

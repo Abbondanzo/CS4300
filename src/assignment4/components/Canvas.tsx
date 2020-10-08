@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useScene } from "../hooks/useScene";
 
 interface Props {
-  shapes: BasicCanvas.Shape[];
-  onClick: (translation: BasicCanvas.Translation) => void;
+  shapes: Canvas2D.Shape[];
+  onClick: (translation: Canvas2D.Translation) => void;
 }
 
 const Canvas = ({ shapes, onClick }: Props) => {

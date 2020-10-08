@@ -1,3 +1,5 @@
+import { twoDimensionConverer } from "./twoDimensionConverter";
+
 /**
  * Renders a 5-pointed star inside the given webGL context.
  *
@@ -6,7 +8,10 @@
  * @param gl rendering context
  * @param star dimensions holder
  */
-export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
+export const renderStar = (
+  gl: WebGLRenderingContext,
+  star: Canvas2D.Star | Canvas3D.Star
+) => {
   const radius = star.dimensions.height / 2;
   const dimenScale = star.dimensions.width / star.dimensions.height;
   const increment = (Math.PI * 2) / 5;
@@ -30,10 +35,13 @@ export const renderStar = (gl: WebGLRenderingContext, star: Star) => {
   const t2 = [...starPoints["1"], ...starPoints["6"], ...starPoints["4"]];
   const t3 = [...starPoints["5"], ...starPoints["2"], ...starPoints["6"]];
 
-  gl.bufferData(
-    gl.ARRAY_BUFFER,
-    new Float32Array([...t1, ...t2, ...t3]),
-    gl.STATIC_DRAW
-  );
+  let points = [...t1, ...t2, ...t3];
+
+  const is3D = "z" in star.position;
+  if (is3D) {
+    points = twoDimensionConverer(points);
+  }
+
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
   gl.drawArrays(gl.TRIANGLES, 0, 9);
 };

@@ -1,11 +1,10 @@
 import { getElementValue } from "@common/form/getElementValue";
 import { buildRectangle } from "@common/model/basicShapeBuilders";
-import { renderRectangle } from "@common/render/rectangle";
+import { renderShape } from "@common/render/2d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 import { getScriptContentsById } from "@common/setup/getScriptContentsById";
 
-const RECTANGLE = "RECTANGLE";
-const shapes: BasicCanvas.Shape[] = [
+const shapes: Canvas2D.Shape[] = [
   buildRectangle({
     position: {
       x: 200,
@@ -76,9 +75,7 @@ const render = () => {
       1
     );
 
-    if (shape.type === RECTANGLE) {
-      renderRectangle(gl, shape as Rectangle);
-    }
+    renderShape(gl, shape);
   });
 };
 

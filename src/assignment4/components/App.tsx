@@ -13,10 +13,10 @@ import ShapeTypeSelect from "./form/ShapeTypeSelect";
 interface Props {}
 
 interface State {
-  shapes: BasicCanvas.Shape[];
+  shapes: Canvas2D.Shape[];
   selectedShapeIndex: number;
-  addShapeType: ShapeType;
-  addShapeColor: BasicCanvas.Color;
+  addShapeType: Canvas2D.ShapeType;
+  addShapeColor: Canvas2D.Color;
 }
 
 class App extends Component<Props, State> {
@@ -30,10 +30,10 @@ class App extends Component<Props, State> {
     };
   }
 
-  onAddShapeTypeSelect = (addShapeType: ShapeType) =>
+  onAddShapeTypeSelect = (addShapeType: Canvas2D.ShapeType) =>
     this.setState({ addShapeType });
 
-  onAddShapeColorSelect = (addShapeColor: BasicCanvas.Color) =>
+  onAddShapeColorSelect = (addShapeColor: Canvas2D.Color) =>
     this.setState({ addShapeColor });
 
   renderAddShapeCard() {
@@ -67,7 +67,7 @@ class App extends Component<Props, State> {
 
   getActiveShape = () => this.state.shapes[this.state.selectedShapeIndex];
 
-  onUpdateShape = (shape: BasicCanvas.Shape) => {
+  onUpdateShape = (shape: Canvas2D.Shape) => {
     const { shapes, selectedShapeIndex } = this.state;
     // Short circuit if both equal
     if (objectEquality(shapes[selectedShapeIndex], shape)) {
@@ -131,7 +131,7 @@ class App extends Component<Props, State> {
     );
   }
 
-  onAddShape = (translation: BasicCanvas.Translation) => {
+  onAddShape = (translation: Canvas2D.Translation) => {
     const shapeProperties = {
       color: this.state.addShapeColor,
       translation,

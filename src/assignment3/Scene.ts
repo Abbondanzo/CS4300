@@ -1,5 +1,4 @@
-import { renderRectangle } from "@common/render/rectangle";
-import { renderTriangle } from "@common/render/triangle";
+import { renderShape } from "@common/render/2d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 
 export default class Scene {
@@ -50,7 +49,7 @@ export default class Scene {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
 
-  render(shapes: BasicCanvas.Shape[]) {
+  render(shapes: Canvas2D.Shape[]) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
     this.gl.vertexAttribPointer(
       this.attributeCoords,
@@ -70,16 +69,7 @@ export default class Scene {
         1
       );
 
-      switch (shape.type) {
-        case "RECTANGLE":
-          renderRectangle(this.gl, shape as Rectangle);
-          break;
-        case "TRIANGLE":
-          renderTriangle(this.gl, shape as Triangle);
-          break;
-        default:
-          console.error("Rendering unhandled shape type", shape);
-      }
+      renderShape(this.gl, shape);
     });
   }
 }

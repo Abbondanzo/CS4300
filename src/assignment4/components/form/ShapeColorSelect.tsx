@@ -2,8 +2,8 @@ import { hexToRgb, rgbToHex } from "@common/util/colors";
 import React from "react";
 
 interface Props {
-  shapeColor: BasicCanvas.Color;
-  setShapeColor: (color: BasicCanvas.Color) => void;
+  shapeColor: Canvas2D.Color;
+  setShapeColor: (color: Canvas2D.Color) => void;
 }
 
 const ShapeColorSelect = ({ shapeColor, setShapeColor }: Props) => {

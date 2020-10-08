@@ -1,7 +1,4 @@
-import { renderCircle } from "@common/render/circle";
-import { renderRectangle } from "@common/render/rectangle";
-import { renderStar } from "@common/render/star";
-import { renderTriangle } from "@common/render/triangle";
+import { renderShape } from "@common/render/2d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 import m3 from "@common/util/m3";
 
@@ -56,7 +53,7 @@ export default class Scene {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   }
 
-  render(shapes: BasicCanvas.Shape[]) {
+  render(shapes: Canvas2D.Shape[]) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
     this.gl.vertexAttribPointer(
       this.attributeCoords,
@@ -91,22 +88,7 @@ export default class Scene {
       // apply transformation matrix.
       this.gl.uniformMatrix3fv(this.uniformMatrix, false, matrix);
 
-      switch (shape.type) {
-        case "RECTANGLE":
-          renderRectangle(this.gl, shape as Rectangle);
-          break;
-        case "TRIANGLE":
-          renderTriangle(this.gl, shape as Triangle);
-          break;
-        case "CIRCLE":
-          renderCircle(this.gl, shape as Circle);
-          break;
-        case "STAR":
-          renderStar(this.gl, shape as Star);
-          break;
-        default:
-          console.error("Rendering unhandled shape type", shape);
-      }
+      renderShape(this.gl, shape);
     });
   }
 

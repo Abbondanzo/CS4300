@@ -2,7 +2,7 @@ import React from "react";
 import { toFirstUpperCase } from "../../utils/toFirstUpperCase";
 
 interface Props {
-  shapes: BasicCanvas.Shape[];
+  shapes: Canvas2D.Shape[];
   activeShapeIndex: number;
   onSelect: (shapeIndex: number) => void;
 }

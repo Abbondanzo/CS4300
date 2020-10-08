@@ -1,6 +1,8 @@
+import { twoDimensionConverer } from "./twoDimensionConverter";
+
 export const renderTriangle = (
   gl: WebGLRenderingContext,
-  triangle: Triangle
+  triangle: Canvas2D.Triangle | Canvas3D.Triangle
 ) => {
   const x1 = triangle.position.x - triangle.dimensions.width / 2;
   const y1 = triangle.position.y + triangle.dimensions.height / 2;
@@ -9,8 +11,13 @@ export const renderTriangle = (
   const x3 = triangle.position.x;
   const y3 = triangle.position.y - triangle.dimensions.height / 2;
 
-  const float32Array = new Float32Array([x1, y1, x2, y2, x3, y3]);
+  let points = [x1, y1, x2, y2, x3, y3];
 
-  gl.bufferData(gl.ARRAY_BUFFER, float32Array, gl.STATIC_DRAW);
+  const is3D = "z" in triangle.position;
+  if (is3D) {
+    points = twoDimensionConverer(points);
+  }
+
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 };
