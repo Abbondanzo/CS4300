@@ -1,4 +1,4 @@
-Fiximport { twoDimensionConverer } from "./twoDimensionConverter";
+import { twoDimensionConverer } from "./twoDimensionConverter";
 
 export const renderRectangle = (
   gl: WebGLRenderingContext,
