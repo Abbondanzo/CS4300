@@ -1,56 +1,45 @@
+import Card from "@common/components/Card";
 import NavBar from "@common/components/NavBar";
-import { buildShape } from "@common/model/basicShapeBuilders";
+import { buildShape } from "@common/model/canvas3DShapeBuilders";
 import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
 
+import AddShape from "./add/AddShape";
 import Canvas from "./Canvas";
 import { BLUE_RECTANGLE, RED_TRIANGLE } from "./constants";
 import EditShape from "./edit/EditShape";
-import ShapeColorSelect from "./add/ShapeColorSelect";
 import ShapeList from "./form/ShapeList";
-import ShapeTypeSelect from "./add/ShapeTypeSelect";
-import Card from "@common/components/Card";
-import AddShape from "./add/AddShape";
 
 interface Props {}
 
 interface State {
   shapes: Canvas3D.Shape[];
   selectedShapeIndex: number;
+  addShapeConfig: Partial<Canvas3D.Shape>;
+  fieldOfView: number;
 }
 
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      shapes: [],
+      shapes: [BLUE_RECTANGLE, RED_TRIANGLE],
       selectedShapeIndex: 0,
+      addShapeConfig: {},
+      fieldOfView: 60,
     };
   }
 
-  renderAddShapeCard() {
-    return (
-      <div className="row">
-        <div className="col mb-4">
-          <div className="card">
-            <Card
-              title="Add Shape"
-              subtitle="Select a shape type before clicking on the canvas"
-            >
-              <AddShape onConfigChange={console.log} />
-            </Card>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  private onConfigChange = (addShapeConfig: Partial<Canvas3D.Shape>) =>
+    this.setState({ addShapeConfig });
 
-  onShapeIndexSelect = (selectedShapeIndex: number) =>
+  private onShapeIndexSelect = (selectedShapeIndex: number) =>
     this.setState({ selectedShapeIndex });
 
-  getActiveShape = () => this.state.shapes[this.state.selectedShapeIndex];
+  private getActiveShape = () =>
+    this.state.shapes[this.state.selectedShapeIndex];
 
-  onUpdateShape = (shape: Canvas3D.Shape) => {
+  private onUpdateShape = (shape: Canvas3D.Shape) => {
     const { shapes, selectedShapeIndex } = this.state;
     // Short circuit if both equal
     if (objectEquality(shapes[selectedShapeIndex], shape)) {
@@ -61,7 +50,7 @@ class App extends Component<Props, State> {
     this.setState({ shapes: newShapes });
   };
 
-  onDeleteShape = () => {
+  private onDeleteShape = () => {
     const shapes = [...this.state.shapes];
     shapes.splice(this.state.selectedShapeIndex, 1);
     let selectedShapeIndex = this.state.selectedShapeIndex;
@@ -74,58 +63,74 @@ class App extends Component<Props, State> {
     });
   };
 
-  renderEditSection() {
-    const activeShape = this.getActiveShape();
+  renderAddCard() {
     return (
-      <div className="card-deck">
-        <Card title="Shape List" subtitle="Pick a shape to edit">
-          <div style={{ maxHeight: 400, overflow: "auto" }}>
-            <ShapeList
-              shapes={this.state.shapes}
-              activeShapeIndex={this.state.selectedShapeIndex}
-              onSelect={this.onShapeIndexSelect}
-            />
-          </div>
-        </Card>
-        <Card
-          title="Shape Edits"
-          subtitle="Perform edits on the selected shape"
-        >
-          {activeShape ? (
-            <EditShape
-              activeShape={activeShape}
-              onUpdate={this.onUpdateShape}
-              onDelete={this.onDeleteShape}
-            />
-          ) : (
-            <p>Please add a shape to continue</p>
-          )}
-        </Card>
-      </div>
+      <Card
+        title="Add Shape"
+        subtitle="Select a shape type before clicking on the canvas"
+      >
+        <AddShape onConfigChange={this.onConfigChange} />
+      </Card>
+    );
+  }
+
+  renderEditCard() {
+    const activeShape = this.getActiveShape();
+
+    return (
+      <Card title="Shape Edits" subtitle="Perform edits on the selected shape">
+        {activeShape ? (
+          <EditShape
+            activeShape={activeShape}
+            onUpdate={this.onUpdateShape}
+            onDelete={this.onDeleteShape}
+          />
+        ) : (
+          <p>Please add a shape to continue</p>
+        )}
+      </Card>
+    );
+  }
+
+  renderListCard() {
+    return (
+      <Card title="Shape List" subtitle="Pick a shape to edit">
+        <div style={{ maxHeight: 320, overflow: "auto" }}>
+          <ShapeList
+            shapes={this.state.shapes}
+            activeShapeIndex={this.state.selectedShapeIndex}
+            onSelect={this.onShapeIndexSelect}
+          />
+        </div>
+      </Card>
     );
   }
 
   onAddShape = (translation: Canvas3D.Translation) => {
-    console.log(translation);
-    // const shapeProperties = {
-    //   color: this.state.addShapeColor,
-    //   translation,
-    //   scale: { x: 20, y: 20, z: 20 },
-    // };
-    // const newShape = buildShape(this.state.addShapeType, shapeProperties);
-    // const newShapes = [...this.state.shapes, newShape];
-    // this.setState({ shapes: newShapes });
+    const shape = buildShape(this.state.addShapeConfig.type, {
+      ...this.state.addShapeConfig,
+      translation,
+      rotation: { x: 0, y: 0, z: 180 },
+      scale: { x: 20, y: 20, z: 20 },
+    });
+    const newShapes = [...this.state.shapes, shape];
+    this.setState({ shapes: newShapes });
   };
 
   render() {
     return (
-      <div className="mb-4" style={{ margin: "0 auto" }}>
-        <div style={{ textAlign: "center" }}>
-          <NavBar title="3D Perspective" />
-          <Canvas onClick={this.onAddShape} shapes={this.state.shapes} />
+      <div className="container mb-4">
+        <NavBar title="3D Perspective" />
+        <div className="row">
+          <div className="col">
+            <Canvas onClick={this.onAddShape} shapes={this.state.shapes} />
+            {this.renderListCard()}
+          </div>
+          <div className="col">
+            <div className="mb-4 w-100">{this.renderAddCard()}</div>
+            <div className="w-100">{this.renderEditCard()}</div>
+          </div>
         </div>
-        {this.renderAddShapeCard()}
-        {this.renderEditSection()}
       </div>
     );
   }

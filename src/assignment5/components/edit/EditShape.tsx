@@ -52,16 +52,19 @@ class EditShape extends Component<Props> {
         <FormVector3
           title="Translation"
           value={translation}
+          step={5}
           onChange={this.onVectorUpdate("translation")}
         />
         <FormVector3
           title="Scale"
           value={scale}
+          step={0.5}
           onChange={this.onVectorUpdate("scale")}
         />
         <FormVector3
           title="Rotation"
           value={rotation}
+          step={2}
           onChange={this.onVectorUpdate("rotation")}
         />
         <FormColor color={color} onChange={this.onColorUpdate} />

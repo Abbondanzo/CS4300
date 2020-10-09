@@ -1,5 +1,5 @@
 import NavBar from "@common/components/NavBar";
-import { buildShape } from "@common/model/basicShapeBuilders";
+import { buildShape } from "@common/model/canvas2DShapeBuilders";
 import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
 

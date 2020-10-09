@@ -2,7 +2,7 @@ import { toFirstUpperCase } from "@common/util/strings";
 import React from "react";
 
 interface Props {
-  shapes: Canvas2D.Shape[];
+  shapes: Canvas3D.Shape[];
   activeShapeIndex: number;
   onSelect: (shapeIndex: number) => void;
 }
@@ -24,7 +24,8 @@ const ShapeList = ({ shapes, activeShapeIndex, onSelect }: Props) => {
             <div className="d-flex justify-content-between align-items-center">
               <p className="mb-0">{toFirstUpperCase(shape.type)}</p>
               <small>
-                X: {shape.translation.x} Y:{shape.translation.y}
+                X: {shape.translation.x} Y: {shape.translation.y} Z:{" "}
+                {shape.translation.z}
               </small>
             </div>
           </button>

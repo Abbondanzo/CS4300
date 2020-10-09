@@ -3,10 +3,11 @@ import React from "react";
 interface Props {
   title: string;
   value: Canvas3D.Vector3;
+  step: number;
   onChange(value: Canvas3D.Vector3): void;
 }
 
-const FormVector3 = ({ title, value, onChange: propChange }: Props) => {
+const FormVector3 = ({ title, value, step, onChange: propChange }: Props) => {
   const onChange = (key: keyof Canvas3D.Vector3) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -16,14 +17,14 @@ const FormVector3 = ({ title, value, onChange: propChange }: Props) => {
 
   return (
     <div className="form-row">
-      <span>{title}</span>
+      <div className="col-md-12">{title}</div>
       <div className="form-group col-md-4">
         <label htmlFor={`form-${title}-x`}>X:</label>
         <input
           type="number"
           className="form-control"
           id={`form-${title}-x`}
-          step="5"
+          step={step}
           value={value.x}
           onChange={onChange("x")}
         />
@@ -34,7 +35,7 @@ const FormVector3 = ({ title, value, onChange: propChange }: Props) => {
           type="number"
           className="form-control"
           id={`form-${title}-y`}
-          step="5"
+          step={step}
           value={value.y}
           onChange={onChange("y")}
         />
@@ -45,7 +46,7 @@ const FormVector3 = ({ title, value, onChange: propChange }: Props) => {
           type="number"
           className="form-control"
           id={`form-${title}-z`}
-          step="5"
+          step={step}
           value={value.z}
           onChange={onChange("z")}
         />

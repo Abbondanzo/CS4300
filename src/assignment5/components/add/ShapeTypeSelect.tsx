@@ -2,11 +2,11 @@ import { toFirstUpperCase } from "@common/util/strings";
 import React from "react";
 
 interface Props {
-  selected: Canvas2D.ShapeType;
-  onSelect: (shape: Canvas2D.ShapeType) => void;
+  selected: Canvas3D.ShapeType;
+  onSelect: (shape: Canvas3D.ShapeType) => void;
 }
 
-const SHAPE_TYPES: Canvas2D.ShapeType[] = [
+const SHAPE_TYPES: Canvas3D.ShapeType[] = [
   "RECTANGLE",
   "TRIANGLE",
   "STAR",

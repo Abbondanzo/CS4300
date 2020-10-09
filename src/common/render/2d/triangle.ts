@@ -11,11 +11,12 @@ export const renderTriangle = (
   const x3 = triangle.position.x;
   const y3 = triangle.position.y - triangle.dimensions.height / 2;
 
-  let points = [x1, y1, x2, y2, x3, y3];
+  let points = [x1, y1, x3, y3, x2, y2];
 
   const is3D = "z" in triangle.position;
   if (is3D) {
     points = twoDimensionConverer(points);
+    console.log(points);
   }
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);

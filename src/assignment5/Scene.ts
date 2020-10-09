@@ -1,6 +1,7 @@
 import { renderShape } from "@common/render/2d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 import m3 from "@common/util/m3";
+import m4 from "@common/util/m4";
 
 const DIMENSIONS = 3;
 
@@ -57,6 +58,7 @@ export default class Scene {
 
   render(shapes: Canvas3D.Shape[]) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
+
     this.gl.vertexAttribPointer(
       this.attributeCoords,
       DIMENSIONS,
@@ -66,10 +68,18 @@ export default class Scene {
       0
     );
 
+    this.gl.enable(this.gl.CULL_FACE);
+    this.gl.enable(this.gl.DEPTH_TEST);
+
     if (shapes.length === 0) {
       this.clearCanvas();
       return;
     }
+
+    const canvas = this.gl.canvas as HTMLCanvasElement;
+    const aspect = canvas.clientWidth / canvas.clientHeight;
+    const zNear = 1;
+    const zFar = 2000;
 
     shapes.forEach((shape) => {
       this.gl.uniform4f(
@@ -81,17 +91,33 @@ export default class Scene {
       );
 
       // compute transformation matrix
-      const canvas = this.gl.canvas as HTMLCanvasElement;
-      let matrix = m3.projection(canvas.clientWidth, canvas.clientHeight);
-      matrix = m3.translate(matrix, shape.translation.x, shape.translation.y);
-      matrix = m3.rotate(matrix, shape.rotation.z);
-      matrix = m3.scale(matrix, shape.scale.x, shape.scale.y);
-
-      // apply transformation matrix.
-      this.gl.uniformMatrix3fv(this.uniformMatrix, false, matrix);
+      const M = this.computeModelViewMatrix(shape, aspect, zNear, zFar);
+      this.gl.uniformMatrix4fv(this.uniformMatrix, false, M);
 
       renderShape(this.gl, shape);
     });
+  }
+
+  private computeModelViewMatrix(
+    shape: Canvas3D.Shape,
+    aspect: number,
+    zNear: number,
+    zFar: number
+  ) {
+    let fieldOfViewRadians = m4.degToRad(60);
+
+    let M = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
+    M = m4.translate(
+      M,
+      shape.translation.x,
+      shape.translation.y,
+      shape.translation.z
+    );
+    M = m4.xRotate(M, m4.degToRad(shape.rotation.x));
+    M = m4.yRotate(M, m4.degToRad(shape.rotation.y));
+    M = m4.zRotate(M, m4.degToRad(shape.rotation.z));
+    M = m4.scale(M, shape.scale.x, shape.scale.y, shape.scale.z);
+    return M;
   }
 
   /**
