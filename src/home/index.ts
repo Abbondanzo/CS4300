@@ -33,6 +33,12 @@ const ASSIGNMENTS: Assignment[] = [
       "Apply matrix multiplications on shapes to perform transformations",
     fileName: "assignment4.html",
   },
+  {
+    title: "A5 - 3D Perspective",
+    dueDate: "Oct 16",
+    description: "Using 3D perspective projection",
+    fileName: "assignment5.html",
+  },
 ];
 
 const buildLineItem = (assignment: Assignment) => {

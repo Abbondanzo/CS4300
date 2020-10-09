@@ -9,6 +9,7 @@ const assignments = [
   "assignment2",
   "assignment3",
   "assignment4",
+  "assignment5",
 ];
 
 module.exports = { assignments };
