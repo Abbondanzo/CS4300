@@ -71,7 +71,7 @@ module.exports = {
   output: {
     pathinfo: true,
     filename: "static/js/[name].js",
-    sourceMapFilename: "static/maps/[name].js.map[query]",
+    sourceMapFilename: "static/maps/[file].map[query]",
     chunkFilename: "static/js/[name].chunk.js",
     globalObject: "this",
   },
@@ -80,7 +80,7 @@ module.exports = {
     minimize: !isDevelopment,
     splitChunks: {
       chunks: "all",
-      name(_, chunks, cacheGroupKey) {
+      name(_module, chunks, cacheGroupKey) {
         const hashChunks = hashCode(chunks.join("-"));
         return `${cacheGroupKey}-${hashChunks}`;
       },
