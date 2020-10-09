@@ -6,7 +6,7 @@ import React, { Component } from "react";
 
 import AddShape from "./add/AddShape";
 import Canvas from "./Canvas";
-import { BLUE_RECTANGLE, RED_TRIANGLE } from "./constants";
+import { BLUE_RECTANGLE, GREEN_CUBE, RED_TRIANGLE } from "./constants";
 import EditShape from "./edit/EditShape";
 import FieldOfView from "./form/FieldOfView";
 import ShapeList from "./form/ShapeList";
@@ -24,7 +24,7 @@ class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      shapes: [BLUE_RECTANGLE, RED_TRIANGLE],
+      shapes: [BLUE_RECTANGLE, RED_TRIANGLE, GREEN_CUBE],
       selectedShapeIndex: 0,
       addShapeConfig: {},
       fieldOfView: 60,
@@ -48,7 +48,7 @@ class App extends Component<Props, State> {
   renderListCard() {
     return (
       <Card title="Shape List" subtitle="Pick a shape to edit">
-        <div style={{ maxHeight: 320, overflow: "auto" }}>
+        <div style={{ maxHeight: 540, overflow: "auto" }}>
           <ShapeList
             shapes={this.state.shapes}
             activeShapeIndex={this.state.selectedShapeIndex}

@@ -11,6 +11,7 @@ const SHAPE_TYPES: Canvas3D.ShapeType[] = [
   "TRIANGLE",
   "STAR",
   "CIRCLE",
+  "CUBE",
 ];
 
 const ShapeTypeSelect = ({ selected, onSelect }: Props) => {

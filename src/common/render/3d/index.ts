@@ -2,12 +2,15 @@ import { renderCircle } from "../2d/circle";
 import { renderRectangle } from "../2d/rectangle";
 import { renderStar } from "../2d/star";
 import { renderTriangle } from "../2d/triangle";
+import { renderCube } from "./cube";
 
 export const renderShape = (
   gl: WebGLRenderingContext,
   shape: Canvas3D.Shape
 ) => {
   switch (shape.type) {
+    case "CUBE":
+      renderCube(gl, shape as Canvas3D.Cube);
     case "RECTANGLE":
       renderRectangle(gl, shape as Canvas3D.Rectangle);
       break;
