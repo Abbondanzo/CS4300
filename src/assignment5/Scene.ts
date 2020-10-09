@@ -55,7 +55,7 @@ export default class Scene {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }
 
-  render(shapes: Canvas3D.Shape[]) {
+  render(shapes: Canvas3D.Shape[], fieldOfViewDegrees: number) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
 
     this.gl.vertexAttribPointer(
@@ -77,6 +77,7 @@ export default class Scene {
 
     const canvas = this.gl.canvas as HTMLCanvasElement;
     const aspect = canvas.clientWidth / canvas.clientHeight;
+    const fov = m4.degToRad(fieldOfViewDegrees);
     const zNear = 1;
     const zFar = 2000;
 
@@ -91,7 +92,7 @@ export default class Scene {
       );
 
       // compute transformation matrix
-      const M = this.computeModelViewMatrix(shape, aspect, zNear, zFar);
+      const M = this.computeModelViewMatrix(shape, fov, aspect, zNear, zFar);
       this.gl.uniformMatrix4fv(this.uniformMatrix, false, M);
 
       renderShape(this.gl, shape);
@@ -100,12 +101,11 @@ export default class Scene {
 
   private computeModelViewMatrix(
     shape: Canvas3D.Shape,
+    fieldOfViewRadians: number,
     aspect: number,
     zNear: number,
     zFar: number
   ) {
-    let fieldOfViewRadians = m4.degToRad(60);
-
     let M = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
     M = m4.translate(
       M,

@@ -3,10 +3,11 @@ import { useScene } from "../hooks/useScene";
 
 interface Props {
   shapes: Canvas3D.Shape[];
+  fieldOfViewDegrees: number;
   onClick: (translation: Canvas3D.Translation) => void;
 }
 
-const Canvas = ({ shapes, onClick }: Props) => {
+const Canvas = ({ shapes, fieldOfViewDegrees, onClick }: Props) => {
   const { scene, canvasRef } = useScene({
     fragmentId: "fragment-shader-3d",
     vertexId: "vertex-shader-3d",
@@ -14,9 +15,9 @@ const Canvas = ({ shapes, onClick }: Props) => {
 
   useEffect(() => {
     if (scene) {
-      scene.render(shapes);
+      scene.render(shapes, fieldOfViewDegrees);
     }
-  }, [scene, shapes]);
+  }, [scene, fieldOfViewDegrees, shapes]);
 
   const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const boundingRectangle = (event.target as HTMLCanvasElement).getBoundingClientRect();
