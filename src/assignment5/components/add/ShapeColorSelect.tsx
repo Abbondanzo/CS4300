@@ -17,7 +17,7 @@ const ShapeColorSelect = ({ shapeColor, setShapeColor }: Props) => {
     <input
       type="color"
       className="form-control"
-      id="color"
+      id="sx"
       value={rgbToHex(shapeColor)}
       onChange={onChange}
     />

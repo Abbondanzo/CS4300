@@ -2,7 +2,7 @@ import { getElementValue } from "@common/form/getElementValue";
 import {
   buildRectangle,
   buildTriangle,
-} from "@common/model/basicShapeBuilders";
+} from "@common/model/canvas2DShapeBuilders";
 import { getScriptContentsById } from "@common/setup/getScriptContentsById";
 import { hexToRgb } from "@common/util/colors";
 

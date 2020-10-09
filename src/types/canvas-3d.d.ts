@@ -1,5 +1,5 @@
 namespace Canvas3D {
-  type ShapeType = "RECTANGLE" | "TRIANGLE" | "CIRCLE" | "STAR";
+  type ShapeType = "RECTANGLE" | "TRIANGLE" | "CIRCLE" | "STAR" | "CUBE";
 
   interface Vector3 {
     x: number;
@@ -41,8 +41,11 @@ namespace Canvas3D {
     scale: Scale;
   }
 
+  // 2D
   type Triangle = Shape & { type: "TRIANGLE" };
   type Rectangle = Shape & { type: "RECTANGLE" };
   type Circle = Shape & { type: "CIRCLE" };
   type Star = Shape & { type: "STAR" };
+  // 3D
+  type Cube = Shape & { type: "CUBE" };
 }

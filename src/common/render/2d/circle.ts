@@ -17,7 +17,7 @@ export const renderCircle = (
   const cy = circle.position.y;
   // Generate points based on unit circle
   let circlePoints = [cx, cy];
-  for (let n = 0; n < SIDES + 1; n++) {
+  for (let n = SIDES; n >= 0; n--) {
     const angle = n * increment;
     const xn = cx + radius * Math.cos(angle) * dimenScale;
     const yn = cy - radius * Math.sin(angle);

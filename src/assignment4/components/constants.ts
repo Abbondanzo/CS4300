@@ -1,7 +1,7 @@
 import {
   buildRectangle,
   buildTriangle,
-} from "@common/model/basicShapeBuilders";
+} from "@common/model/canvas2DShapeBuilders";
 import { hexToRgb } from "@common/util/colors";
 
 const ORIGIN: Canvas2D.Position = { x: 0, y: 0 };

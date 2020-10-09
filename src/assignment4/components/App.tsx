@@ -1,9 +1,9 @@
 import NavBar from "@common/components/NavBar";
-import { buildShape } from "@common/model/basicShapeBuilders";
+import { buildShape } from "@common/model/canvas2DShapeBuilders";
+import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
-import { objectEquality } from "../utils/objectEquality";
-import Canvas from "./Canvas";
 
+import Canvas from "./Canvas";
 import { BLUE_RECTANGLE, RED_TRIANGLE } from "./constants";
 import EditShape from "./form/EditShape";
 import ShapeColorSelect from "./form/ShapeColorSelect";

@@ -1,5 +1,5 @@
 import { getElementValue } from "@common/form/getElementValue";
-import { buildRectangle } from "@common/model/basicShapeBuilders";
+import { buildRectangle } from "@common/model/canvas2DShapeBuilders";
 import { renderShape } from "@common/render/2d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 import { getScriptContentsById } from "@common/setup/getScriptContentsById";
