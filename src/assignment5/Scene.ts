@@ -1,6 +1,5 @@
-import { renderShape } from "@common/render/2d";
+import { renderShape } from "@common/render/3d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
-import m3 from "@common/util/m3";
 import m4 from "@common/util/m4";
 
 const DIMENSIONS = 3;
@@ -82,6 +81,7 @@ export default class Scene {
     const zFar = 2000;
 
     shapes.forEach((shape) => {
+      console.log(shape.color);
       this.gl.uniform4f(
         this.uniformColor,
         shape.color.red,
