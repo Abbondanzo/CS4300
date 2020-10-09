@@ -82,7 +82,6 @@ export default class Scene {
     const zFar = 2000;
 
     shapes.forEach((shape) => {
-      console.log(shape.color);
       this.gl.uniform4f(
         this.uniformColor,
         shape.color.red,
