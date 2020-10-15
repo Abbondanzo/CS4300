@@ -121,7 +121,7 @@ class App extends Component<Props, State> {
   render() {
     return (
       <div className="container mb-4">
-        <NavBar title="3D Perspective" />
+        <NavBar title="Moving the Camera in WebGL" />
         <div className="row">
           <div className="col">
             <Canvas
