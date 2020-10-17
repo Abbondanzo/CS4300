@@ -17,7 +17,6 @@ const Canvas = ({ shapes, cameraSettings, onClick }: Props) => {
 
   useEffect(() => {
     if (scene) {
-      console.log(cameraSettings);
       const camera = Camera.fromSettings(cameraSettings);
       scene.render(shapes, camera);
     }

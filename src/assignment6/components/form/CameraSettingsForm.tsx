@@ -44,7 +44,7 @@ class CameraSettingsForm extends React.Component<Props, State> {
               onChange={this.toggleLookAt}
             />
             <label className="form-check-label" htmlFor="look-at-toggle">
-              Toggle "Look At"
+              Enable "Look At" (disables key controls)
             </label>
           </div>
         </div>
@@ -114,21 +114,64 @@ class CameraSettingsForm extends React.Component<Props, State> {
   };
 
   private readonly handleKeyDown = (event: KeyboardEvent) => {
+    // These keys should only change translation when not focused on target. For future assignment work
+    if (this.props.cameraSettings.target !== undefined) {
+      return;
+    }
+
     const fast = event.shiftKey;
-    let xModifier = 0;
-    let yModifier = 0;
+    let xBase = 0;
+    let yBase = 0;
+    let zBase = 0;
     switch (event.key) {
+      case "W":
       case "w":
-        xModifier = 2;
+        zBase = -1;
         break;
+      case "A":
       case "a":
+        xBase = -1;
         break;
+      case "S":
       case "s":
-        xModifier = -2;
+        zBase = 1;
         break;
+      case "D":
       case "d":
+        xBase = 1;
+        break;
+      case " ":
+        yBase = 1;
+        break;
+      case "Control":
+        yBase = -1;
         break;
     }
+
+    if (xBase !== 0 || yBase !== 0 || zBase !== 0) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleMove(xBase, yBase, zBase, fast);
+    }
+  };
+
+  private readonly handleMove = (
+    x: number,
+    y: number,
+    z: number,
+    fast: boolean
+  ) => {
+    const multFactor = fast ? 5 : 2;
+    const { cameraSettings, onChange } = this.props;
+    const translation = {
+      x: cameraSettings.translation.x += x * multFactor,
+      y: cameraSettings.translation.y += y * multFactor,
+      z: cameraSettings.translation.z += z * multFactor,
+    };
+    onChange({
+      ...cameraSettings,
+      translation,
+    });
   };
 }
 

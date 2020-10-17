@@ -40,6 +40,17 @@ export default class Camera {
   }
 
   getViewProjectionMatrix(aspect: number) {
+    const cameraMatrix = this.getCameraMatrix();
+    const projectionMatrix = m4.perspective(
+      this.fovRadians,
+      aspect,
+      Z_NEAR,
+      Z_FAR
+    );
+    return m4.multiply(projectionMatrix, cameraMatrix);
+  }
+
+  private getCameraMatrix() {
     let cameraMatrix = m4.identity();
     if (this.target !== undefined) {
       cameraMatrix = this.applyTranslation(cameraMatrix);
@@ -53,14 +64,7 @@ export default class Camera {
       cameraMatrix = this.applyRotation(cameraMatrix);
       cameraMatrix = this.applyTranslation(cameraMatrix);
     }
-    cameraMatrix = m4.inverse(cameraMatrix);
-    const projectionMatrix = m4.perspective(
-      this.fovRadians,
-      aspect,
-      Z_NEAR,
-      Z_FAR
-    );
-    return m4.multiply(projectionMatrix, cameraMatrix);
+    return m4.inverse(cameraMatrix);
   }
 
   private getTargetAsMatrix() {
