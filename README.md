@@ -10,12 +10,14 @@ Each assignment is contained within a folder called `assignmentN`, in the [`src/
 
 <!-- https://www.tablesgenerator.com/markdown_tables# -->
 
-| Name        | Description                                                               | Type              | Link                      |
-| ----------- | ------------------------------------------------------------------------- | ----------------- | ------------------------- |
-| assignment1 | A trivial WebGL application that renders a simple triangle                | JavaScript, HTML  | [link](./src/assignment1) |
-| assignment2 | A simple CAD (Computer Aided Design) application using HTML and WebGL     | JavaScript, HTML  | [link](./src/assignment2) |
-| assignment3 | A take on A2 where you can interact with the WebGL canvas using the mouse | TypeScript, HTML  | [link](./src/assignment3) |
-| assignment4 | Apply matrix multiplications on shapes to perform transformations         | TypeScript, React | [link](./src/assignment4) |
+| Name        | Description                                                                    | Type              | Link                      |
+| ----------- | ------------------------------------------------------------------------------ | ----------------- | ------------------------- |
+| assignment1 | A trivial WebGL application that renders a simple triangle                     | JavaScript, HTML  | [link](./src/assignment1) |
+| assignment2 | A simple CAD (Computer Aided Design) application using HTML and WebGL          | JavaScript, HTML  | [link](./src/assignment2) |
+| assignment3 | A take on A2 where you can interact with the WebGL canvas using the mouse      | TypeScript, HTML  | [link](./src/assignment3) |
+| assignment4 | Apply matrix multiplications on shapes to perform transformations              | TypeScript, React | [link](./src/assignment4) |
+| assignment5 | Using 3D perspective projection                                                | TypeScript, React | [link](./src/assignment5) |
+| assignment6 | Adding support to move the camera around in WebGL using six degrees of freedom | TypeScript, React | [link](./src/assignment6) |
 
 ### Utilities
 

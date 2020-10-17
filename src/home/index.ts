@@ -39,6 +39,13 @@ const ASSIGNMENTS: Assignment[] = [
     description: "Using 3D perspective projection",
     fileName: "assignment5.html",
   },
+  {
+    title: "A6 - Moving the Camera",
+    dueDate: "Oct 22",
+    description:
+      "Adding support to move the camera around in WebGL using six degrees of freedom",
+    fileName: "assignment6.html",
+  },
 ];
 
 const buildLineItem = (assignment: Assignment) => {
