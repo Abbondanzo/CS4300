@@ -4,10 +4,17 @@ interface Props {
   title: string;
   value: Canvas3D.Vector3;
   step: number;
+  disabled?: boolean;
   onChange(value: Canvas3D.Vector3): void;
 }
 
-const FormVector3 = ({ title, value, step, onChange: propChange }: Props) => {
+const FormVector3 = ({
+  title,
+  value,
+  step,
+  disabled,
+  onChange: propChange,
+}: Props) => {
   const onChange = (key: keyof Canvas3D.Vector3) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -24,6 +31,7 @@ const FormVector3 = ({ title, value, step, onChange: propChange }: Props) => {
           type="number"
           className="form-control"
           id={`form-${title}-x`}
+          disabled={disabled}
           step={step}
           value={value.x}
           onChange={onChange("x")}
@@ -35,6 +43,7 @@ const FormVector3 = ({ title, value, step, onChange: propChange }: Props) => {
           type="number"
           className="form-control"
           id={`form-${title}-y`}
+          disabled={disabled}
           step={step}
           value={value.y}
           onChange={onChange("y")}
@@ -46,6 +55,7 @@ const FormVector3 = ({ title, value, step, onChange: propChange }: Props) => {
           type="number"
           className="form-control"
           id={`form-${title}-z`}
+          disabled={disabled}
           step={step}
           value={value.z}
           onChange={onChange("z")}

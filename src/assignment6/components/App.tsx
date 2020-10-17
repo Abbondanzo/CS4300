@@ -4,11 +4,12 @@ import { buildShape } from "@common/model/canvas3DShapeBuilders";
 import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
 
+import { CameraSettings } from "../Camera";
 import AddShape from "./add/AddShape";
 import Canvas from "./Canvas";
 import { BLUE_RECTANGLE, GREEN_CUBE, RED_TRIANGLE } from "./constants";
 import EditShape from "./edit/EditShape";
-import FieldOfView from "./form/FieldOfView";
+import CameraSettingsForm from "./form/CameraSettingsForm";
 import ShapeList from "./form/ShapeList";
 
 interface Props {}
@@ -17,7 +18,7 @@ interface State {
   shapes: Canvas3D.Shape[];
   selectedShapeIndex: number;
   addShapeConfig: Partial<Canvas3D.Shape>;
-  fieldOfView: number;
+  cameraSettings: CameraSettings;
 }
 
 class App extends Component<Props, State> {
@@ -27,7 +28,11 @@ class App extends Component<Props, State> {
       shapes: [BLUE_RECTANGLE, RED_TRIANGLE, GREEN_CUBE],
       selectedShapeIndex: 0,
       addShapeConfig: {},
-      fieldOfView: 60,
+      cameraSettings: {
+        fovDegrees: 60,
+        translation: { x: 0, y: 0, z: 50 },
+        target: { x: 0, y: 0, z: 0 },
+      },
     };
   }
 
@@ -109,10 +114,10 @@ class App extends Component<Props, State> {
 
   renderFOVCard() {
     return (
-      <Card title="Field of View">
-        <FieldOfView
-          fieldOfView={this.state.fieldOfView}
-          onChange={(fieldOfView) => this.setState({ fieldOfView })}
+      <Card title="Camera Settings">
+        <CameraSettingsForm
+          cameraSettings={this.state.cameraSettings}
+          onChange={(cameraSettings) => this.setState({ cameraSettings })}
         />
       </Card>
     );
@@ -127,7 +132,7 @@ class App extends Component<Props, State> {
             <Canvas
               onClick={this.onAddShape}
               shapes={this.state.shapes}
-              fieldOfViewDegrees={this.state.fieldOfView}
+              cameraSettings={this.state.cameraSettings}
             />
             {this.renderListCard()}
           </div>

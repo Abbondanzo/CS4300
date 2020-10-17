@@ -1,6 +1,7 @@
 import { renderShape } from "@common/render/3d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
 import m4 from "@common/util/m4";
+import Camera from "./Camera";
 
 const DIMENSIONS = 3;
 
@@ -55,7 +56,7 @@ export default class Scene {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }
 
-  render(shapes: Canvas3D.Shape[], fieldOfViewDegrees: number) {
+  render(shapes: Canvas3D.Shape[], camera: Camera) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
 
     this.gl.vertexAttribPointer(
@@ -77,9 +78,7 @@ export default class Scene {
 
     const canvas = this.gl.canvas as HTMLCanvasElement;
     const aspect = canvas.clientWidth / canvas.clientHeight;
-    const fov = m4.degToRad(fieldOfViewDegrees);
-    const zNear = 1;
-    const zFar = 2000;
+    const viewProjectionMatrix = camera.getViewProjectionMatrix(aspect);
 
     shapes.forEach((shape) => {
       this.gl.uniform4f(
@@ -91,7 +90,7 @@ export default class Scene {
       );
 
       // compute transformation matrix
-      const M = this.computeModelViewMatrix(shape, fov, aspect, zNear, zFar);
+      const M = this.computeModelViewMatrix(shape, viewProjectionMatrix);
       this.gl.uniformMatrix4fv(this.uniformMatrix, false, M);
 
       renderShape(this.gl, shape);
@@ -100,14 +99,10 @@ export default class Scene {
 
   private computeModelViewMatrix(
     shape: Canvas3D.Shape,
-    fieldOfViewRadians: number,
-    aspect: number,
-    zNear: number,
-    zFar: number
+    viewProjectionMatrix: number[]
   ) {
-    let M = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-    M = m4.translate(
-      M,
+    let M = m4.translate(
+      viewProjectionMatrix,
       shape.translation.x,
       shape.translation.y,
       shape.translation.z

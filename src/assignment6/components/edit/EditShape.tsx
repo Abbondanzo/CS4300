@@ -1,9 +1,7 @@
-import { hexToRgb, rgbToHex } from "@common/util/colors";
-import { degreesToRadians, radiansToDegrees } from "@common/util/degrees";
+import FormColor from "@common/components/form/FormColor";
+import FormVector3 from "@common/components/form/FormVector3";
 import { truncate } from "@common/util/numbers";
 import React, { Component } from "react";
-import FormColor from "./FormColor";
-import FormVector3 from "./FormVector3";
 
 interface Props {
   activeShape: Canvas3D.Shape;
