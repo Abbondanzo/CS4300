@@ -29,7 +29,7 @@ class App extends Component<Props, State> {
       selectedShapeIndex: 0,
       addShapeConfig: {},
       cameraSettings: {
-        fovDegrees: 60,
+        fovDegrees: 90,
         translation: { x: 0, y: 0, z: 50 },
         target: { x: 0, y: 0, z: 0 },
       },

@@ -2,6 +2,7 @@ import FormVector3 from "@common/components/form/FormVector3";
 import React from "react";
 
 import { CameraSettings } from "../../Camera";
+import FieldOfView from "./FieldOfView";
 
 const DEFAULT_TARGET: Canvas3D.Vector3 = { x: 0, y: 0, z: 0 };
 const DEFAULT_ROTATION: Canvas3D.Vector3 = { x: 0, y: 0, z: 0 };
@@ -77,11 +78,17 @@ class CameraSettingsForm extends React.Component<Props, State> {
 
   render() {
     const { lookAtEnabled } = this.state;
-    const { translation, rotation, target } = this.props.cameraSettings;
+    const {
+      fovDegrees,
+      translation,
+      rotation,
+      target,
+    } = this.props.cameraSettings;
 
     return (
       <form>
         {this.renderLookAtToggle()}
+        <FieldOfView fieldOfView={fovDegrees} onChange={this.onFOVUpdate} />
         <FormVector3
           disabled={!lookAtEnabled}
           title="Target"
@@ -111,6 +118,11 @@ class CameraSettingsForm extends React.Component<Props, State> {
   ) => (value: Canvas3D.Vector3) => {
     const { onChange, cameraSettings } = this.props;
     onChange({ ...cameraSettings, [key]: value });
+  };
+
+  private readonly onFOVUpdate = (fovDegrees: number) => {
+    const { onChange, cameraSettings } = this.props;
+    onChange({ ...cameraSettings, fovDegrees });
   };
 
   private readonly handleKeyDown = (event: KeyboardEvent) => {
