@@ -4,6 +4,7 @@ import { degreesToRadians } from "@common/util/degrees";
 import m4 from "@common/util/m4";
 
 import Camera from "./Camera";
+import Light from "./Light";
 
 const DIMENSIONS = 3;
 
@@ -58,7 +59,7 @@ export default class Scene {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }
 
-  render(shapes: Canvas3D.Shape[], camera: Camera) {
+  render(shapes: Canvas3D.Shape[], camera: Camera, light: Light) {
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
 
     this.gl.vertexAttribPointer(

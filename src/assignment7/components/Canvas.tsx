@@ -1,26 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Camera, { CameraSettings } from "../Camera";
 import { useScene } from "../hooks/useScene";
+import Light, { LightSettings } from "../Light";
 
 interface Props {
   shapes: Canvas3D.Shape[];
   cameraSettings: CameraSettings;
+  lightSettings: LightSettings;
   onClick: (translation: Canvas3D.Translation) => void;
 }
 
-const Canvas = ({ shapes, cameraSettings, onClick }: Props) => {
+const Canvas = ({ shapes, cameraSettings, lightSettings, onClick }: Props) => {
   const { scene, canvasRef } = useScene({
     fragmentId: "fragment-shader-3d",
     vertexId: "vertex-shader-3d",
   });
+  const [camera, setCamera] = useState(Camera.fromSettings(cameraSettings));
+  const [light, setLight] = useState(Light.fromSettings(lightSettings));
+
+  // Rebuild camera each time settings change
+  useEffect(() => {
+    setCamera(Camera.fromSettings(cameraSettings));
+  }, [setCamera, cameraSettings]);
+
+  // Rebuild light source each time settings change
+  useEffect(() => {
+    setLight(Light.fromSettings(lightSettings));
+  }, [setLight, lightSettings]);
 
   useEffect(() => {
     if (scene) {
-      const camera = Camera.fromSettings(cameraSettings);
-      scene.render(shapes, camera);
+      scene.render(shapes, camera, light);
     }
-  }, [scene, cameraSettings, shapes]);
+  }, [scene, camera, light, shapes]);
 
   const onMouseDown = (event: React.MouseEvent<HTMLCanvasElement>) => {
     const boundingRectangle = (event.target as HTMLCanvasElement).getBoundingClientRect();

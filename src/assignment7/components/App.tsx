@@ -5,9 +5,16 @@ import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
 
 import { CameraSettings } from "../Camera";
+import { LightSettings } from "../Light";
 import AddShape from "./add/AddShape";
 import Canvas from "./Canvas";
-import { BLUE_RECTANGLE, GREEN_CUBE, RED_TRIANGLE } from "./constants";
+import {
+  BLUE_RECTANGLE,
+  DEFAULT_CAMERA_SETTINGS,
+  DEFAULT_LIGHT_SETTINGS,
+  GREEN_CUBE,
+  RED_TRIANGLE,
+} from "./constants";
 import EditShape from "./edit/EditShape";
 import CameraSettingsForm from "./form/CameraSettingsForm";
 import ShapeList from "./form/ShapeList";
@@ -19,6 +26,7 @@ interface State {
   selectedShapeIndex: number;
   addShapeConfig: Partial<Canvas3D.Shape>;
   cameraSettings: CameraSettings;
+  lightSettings: LightSettings;
 }
 
 class App extends Component<Props, State> {
@@ -28,11 +36,8 @@ class App extends Component<Props, State> {
       shapes: [BLUE_RECTANGLE, RED_TRIANGLE, GREEN_CUBE],
       selectedShapeIndex: 0,
       addShapeConfig: {},
-      cameraSettings: {
-        fovDegrees: 90,
-        translation: { x: 0, y: 0, z: 50 },
-        target: { x: 0, y: 0, z: 0 },
-      },
+      cameraSettings: DEFAULT_CAMERA_SETTINGS,
+      lightSettings: DEFAULT_LIGHT_SETTINGS,
     };
   }
 
@@ -124,6 +129,7 @@ class App extends Component<Props, State> {
   }
 
   render() {
+    const { shapes, cameraSettings, lightSettings } = this.state;
     return (
       <div className="container mb-4">
         <NavBar title="Moving the Camera in WebGL" />
@@ -131,8 +137,9 @@ class App extends Component<Props, State> {
           <div className="col">
             <Canvas
               onClick={this.onAddShape}
-              shapes={this.state.shapes}
-              cameraSettings={this.state.cameraSettings}
+              shapes={shapes}
+              cameraSettings={cameraSettings}
+              lightSettings={lightSettings}
             />
             {this.renderListCard()}
           </div>

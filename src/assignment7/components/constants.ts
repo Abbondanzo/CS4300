@@ -1,6 +1,9 @@
 import { buildShape } from "@common/model/canvas3DShapeBuilders";
 import { hexToRgb } from "@common/util/colors";
 
+import { CameraSettings } from "../Camera";
+import { LightSettings } from "../Light";
+
 const ORIGIN: Canvas3D.Position = { x: 0, y: 0, z: 0 };
 const SIZE_ONE: Canvas3D.Dimensions = { width: 1, height: 1, depth: 1 };
 const RED_RGB = hexToRgb("#FF0000");
@@ -33,3 +36,13 @@ export const GREEN_CUBE = buildShape("CUBE", {
   scale: { x: 10, y: 10, z: 10 },
   rotation: { x: 0, y: 45, z: 0 },
 });
+
+export const DEFAULT_CAMERA_SETTINGS: CameraSettings = {
+  fovDegrees: 90,
+  translation: { x: 0, y: 0, z: 50 },
+  target: { x: 0, y: 0, z: 0 },
+};
+
+export const DEFAULT_LIGHT_SETTINGS: LightSettings = {
+  direction: { x: 0.4, y: 0.3, z: 0.5 },
+};
