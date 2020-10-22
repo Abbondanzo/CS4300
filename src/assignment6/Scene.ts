@@ -95,7 +95,12 @@ export default class Scene {
       const M = this.computeModelViewMatrix(shape, viewProjectionMatrix);
       this.gl.uniformMatrix4fv(this.uniformMatrix, false, M);
 
-      renderShape(this.gl, shape);
+      renderShape({
+        context: this.gl,
+        shape,
+        bufferCoords: this.bufferCoords,
+        normalBuffer: null,
+      });
     });
   }
 
