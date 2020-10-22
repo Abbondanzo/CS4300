@@ -46,6 +46,12 @@ const ASSIGNMENTS: Assignment[] = [
       "Adding support to move the camera around in WebGL using six degrees of freedom",
     fileName: "assignment6.html",
   },
+  {
+    title: "A7 - Lighting and Shading",
+    dueDate: "Oct 29",
+    description: "Modeling light in a WebGL 3D scene",
+    fileName: "assignment7.html",
+  },
 ];
 
 const buildLineItem = (assignment: Assignment) => {

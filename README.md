@@ -18,6 +18,7 @@ Each assignment is contained within a folder called `assignmentN`, in the [`src/
 | assignment4 | Apply matrix multiplications on shapes to perform transformations              | TypeScript, React | [link](./src/assignment4) |
 | assignment5 | Using 3D perspective projection                                                | TypeScript, React | [link](./src/assignment5) |
 | assignment6 | Adding support to move the camera around in WebGL using six degrees of freedom | TypeScript, React | [link](./src/assignment6) |
+| assignment7 | Modeling light in a WebGL 3D scene                                             | TypeScript, React | [link](./src/assignment7) |
 
 ### Utilities
 
