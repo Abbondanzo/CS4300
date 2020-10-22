@@ -1,5 +1,6 @@
 import { renderShape } from "@common/render/3d";
 import { createProgramFromScripts } from "@common/setup/createProgramFromScripts";
+import { degreesToRadians } from "@common/util/degrees";
 import m4 from "@common/util/m4";
 
 const DIMENSIONS = 3;
@@ -77,7 +78,7 @@ export default class Scene {
 
     const canvas = this.gl.canvas as HTMLCanvasElement;
     const aspect = canvas.clientWidth / canvas.clientHeight;
-    const fov = m4.degToRad(fieldOfViewDegrees);
+    const fov = degreesToRadians(fieldOfViewDegrees);
     const zNear = 1;
     const zFar = 2000;
 
@@ -112,9 +113,9 @@ export default class Scene {
       shape.translation.y,
       shape.translation.z
     );
-    M = m4.xRotate(M, m4.degToRad(shape.rotation.x));
-    M = m4.yRotate(M, m4.degToRad(shape.rotation.y));
-    M = m4.zRotate(M, m4.degToRad(shape.rotation.z));
+    M = m4.xRotate(M, degreesToRadians(shape.rotation.x));
+    M = m4.yRotate(M, degreesToRadians(shape.rotation.y));
+    M = m4.zRotate(M, degreesToRadians(shape.rotation.z));
     M = m4.scale(M, shape.scale.x, shape.scale.y, shape.scale.z);
     return M;
   }

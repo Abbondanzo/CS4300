@@ -289,10 +289,6 @@ const m4 = {
     return dst;
   },
 
-  radToDeg: (radians: number) => (radians * 180) / Math.PI,
-
-  degToRad: (degrees: number) => (degrees * Math.PI) / 180,
-
   lookAt: (cameraPosition: number[], target: number[], up: number[]) => {
     var zAxis = m4.normalize(m4.subtractVectors(cameraPosition, target));
     var xAxis = m4.normalize(m4.cross(up, zAxis));

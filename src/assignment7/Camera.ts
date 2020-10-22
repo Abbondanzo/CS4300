@@ -1,3 +1,4 @@
+import { degreesToRadians, radiansToDegrees } from "@common/util/degrees";
 import m4 from "@common/util/m4";
 
 const UP = [0, 1, 0];
@@ -20,7 +21,7 @@ export default class Camera {
   constructor() {
     this.rotation = { x: 0, y: 0, z: 0 };
     this.translation = { x: 0, y: 0, z: 0 };
-    this.fovRadians = m4.degToRad(60);
+    this.fovRadians = degreesToRadians(60);
   }
 
   setTarget(position: Canvas3D.Position) {
@@ -32,11 +33,11 @@ export default class Camera {
   }
 
   getFOVDegrees() {
-    return Math.round(m4.radToDeg(this.fovRadians));
+    return radiansToDegrees(this.fovRadians);
   }
 
   setFOV(fovDegrees: number) {
-    this.fovRadians = m4.degToRad(fovDegrees);
+    this.fovRadians = degreesToRadians(fovDegrees);
   }
 
   getViewProjectionMatrix(aspect: number) {
@@ -72,9 +73,9 @@ export default class Camera {
   }
 
   private applyRotation(matrix: number[]) {
-    matrix = m4.zRotate(matrix, m4.degToRad(this.rotation.z));
-    matrix = m4.xRotate(matrix, m4.degToRad(this.rotation.x));
-    matrix = m4.yRotate(matrix, m4.degToRad(this.rotation.y));
+    matrix = m4.zRotate(matrix, degreesToRadians(this.rotation.z));
+    matrix = m4.xRotate(matrix, degreesToRadians(this.rotation.x));
+    matrix = m4.yRotate(matrix, degreesToRadians(this.rotation.y));
     return matrix;
   }
 
