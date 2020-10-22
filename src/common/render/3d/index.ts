@@ -4,6 +4,7 @@ import { renderStar } from "../2d/star";
 import { renderTriangle } from "../2d/triangle";
 import { renderCube } from "./cube";
 
+// TODO: These options should be placed in a singleton vault
 interface RenderOptions {
   shape: Canvas3D.Shape;
   context: WebGLRenderingContext;
