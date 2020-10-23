@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { LightSettings } from "../../Light";
+import { LightSettings } from "../../webgl/Light";
 
 interface Props {
   lightSettings: LightSettings;

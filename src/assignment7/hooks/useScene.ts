@@ -1,7 +1,7 @@
 import { getScriptContentsById } from "@common/setup/getScriptContentsById";
 import { RefObject, useEffect, useRef, useState } from "react";
 
-import Scene from "../Scene";
+import Scene from "../webgl/Scene";
 
 interface UseSceneOptions {
   fragmentId: string;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import Camera, { CameraSettings } from "../Camera";
 import { useScene } from "../hooks/useScene";
-import Light, { LightSettings } from "../Light";
+import Camera, { CameraSettings } from "../webgl/Camera";
+import Light, { LightSettings } from "../webgl/Light";
 
 interface Props {
   shapes: Canvas3D.Shape[];

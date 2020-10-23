@@ -1,8 +1,8 @@
 import { buildShape } from "@common/model/canvas3DShapeBuilders";
 import { hexToRgb } from "@common/util/colors";
 
-import { CameraSettings } from "../Camera";
-import { LightSettings } from "../Light";
+import { CameraSettings } from "../webgl/Camera";
+import { LightSettings } from "../webgl/Light";
 
 const ORIGIN: Canvas3D.Position = { x: 0, y: 0, z: 0 };
 const SIZE_ONE: Canvas3D.Dimensions = { width: 1, height: 1, depth: 1 };

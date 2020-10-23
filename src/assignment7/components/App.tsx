@@ -4,9 +4,10 @@ import { buildShape } from "@common/model/canvas3DShapeBuilders";
 import { objectEquality } from "@common/util/objects";
 import React, { Component } from "react";
 
-import { CameraSettings } from "../Camera";
-import { LightSettings } from "../Light";
+import { CameraSettings } from "../webgl/Camera";
+import { LightSettings } from "../webgl/Light";
 import AddShape from "./add/AddShape";
+import CameraSettingsForm from "./camera/CameraSettingsForm";
 import Canvas from "./Canvas";
 import {
   DEFAULT_CAMERA_SETTINGS,
@@ -14,9 +15,8 @@ import {
   DEFAULT_SHAPES,
 } from "./constants";
 import EditShape from "./edit/EditShape";
-import CameraSettingsForm from "./camera/CameraSettingsForm";
-import ShapeList from "./list/ShapeList";
 import LightSettingsForm from "./light/LightSettingsForm";
+import ShapeList from "./list/ShapeList";
 
 interface Props {}
 

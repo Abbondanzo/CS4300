@@ -1,7 +1,7 @@
 import FormVector3 from "@common/components/form/FormVector3";
 import React from "react";
 
-import { CameraSettings } from "../../Camera";
+import { CameraSettings } from "../../webgl/Camera";
 import FieldOfView from "./FieldOfView";
 
 const DEFAULT_TARGET: Canvas3D.Vector3 = { x: 0, y: 0, z: 0 };

@@ -1,6 +1,5 @@
 import FormColor from "@common/components/form/FormColor";
 import FormVector3 from "@common/components/form/FormVector3";
-import { truncate } from "@common/util/numbers";
 import React, { Component } from "react";
 
 interface Props {
