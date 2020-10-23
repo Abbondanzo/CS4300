@@ -1,4 +1,4 @@
-export const twoDimensionConverer = (points: number[]) => {
+export const twoDimensionConverter = (points: number[]) => {
   const newPoints = [];
   for (let i = 0; i < points.length; i++) {
     newPoints.push(points[i]);

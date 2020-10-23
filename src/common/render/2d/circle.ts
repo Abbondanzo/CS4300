@@ -1,4 +1,4 @@
-import { twoDimensionConverer } from "./twoDimensionConverter";
+import { twoDimensionConverter } from "./twoDimensionConverter";
 
 /**
  * Renders a n-side polygon as a circle inside the given webGL context.
@@ -26,7 +26,7 @@ export const renderCircle = (
 
   const is3D = "z" in circle.position;
   if (is3D) {
-    circlePoints = twoDimensionConverer(circlePoints);
+    circlePoints = twoDimensionConverter(circlePoints);
   }
 
   gl.bufferData(

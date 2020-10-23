@@ -1,9 +1,9 @@
 import { truncate } from "./numbers";
 
 export const degreesToRadians = (degrees: number) => {
-  return (((360 - degrees) % 360) * Math.PI) / 180;
+  return ((degrees % 360) * Math.PI) / 180;
 };
 
 export const radiansToDegrees = (radians: number) => {
-  return (360 - truncate((radians * 180) / Math.PI)) % 360;
+  return truncate((radians * 180) / Math.PI) % 360;
 };

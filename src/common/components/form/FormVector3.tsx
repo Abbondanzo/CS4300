@@ -24,9 +24,22 @@ const FormVector3 = ({
 
   return (
     <div className="form-row">
-      <div className="col-md-12">{title}</div>
+      <div className="col-md-12">
+        {title} [
+        <label style={{ cursor: "pointer" }} htmlFor={`form-${title}-x`}>
+          X
+        </label>
+        ,{" "}
+        <label style={{ cursor: "pointer" }} htmlFor={`form-${title}-y`}>
+          Y
+        </label>
+        ,{" "}
+        <label style={{ cursor: "pointer" }} htmlFor={`form-${title}-z`}>
+          Z
+        </label>
+        ]
+      </div>
       <div className="form-group col-md-4">
-        <label htmlFor={`form-${title}-x`}>X:</label>
         <input
           type="number"
           className="form-control"
@@ -38,7 +51,6 @@ const FormVector3 = ({
         />
       </div>
       <div className="form-group col-md-4">
-        <label htmlFor={`form-${title}-y`}>Y:</label>
         <input
           type="number"
           className="form-control"
@@ -50,7 +62,6 @@ const FormVector3 = ({
         />
       </div>
       <div className="form-group col-md-4">
-        <label htmlFor={`form-${title}-z`}>Z:</label>
         <input
           type="number"
           className="form-control"
