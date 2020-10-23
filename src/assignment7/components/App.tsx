@@ -16,6 +16,7 @@ import {
 import EditShape from "./edit/EditShape";
 import CameraSettingsForm from "./camera/CameraSettingsForm";
 import ShapeList from "./list/ShapeList";
+import LightSettingsForm from "./light/LightSettingsForm";
 
 interface Props {}
 
@@ -115,6 +116,20 @@ class App extends Component<Props, State> {
     });
   };
 
+  renderLightCard() {
+    return (
+      <Card
+        title="Light Settings"
+        subtitle="Control the source of a point light"
+      >
+        <LightSettingsForm
+          lightSettings={this.state.lightSettings}
+          onChange={(lightSettings) => this.setState({ lightSettings })}
+        />
+      </Card>
+    );
+  }
+
   renderFOVCard() {
     return (
       <Card
@@ -137,7 +152,6 @@ class App extends Component<Props, State> {
         <div className="row">
           <div className="col">
             <div className="mb-4 w-100">
-              {" "}
               <Canvas
                 onClick={this.onAddShape}
                 shapes={shapes}
@@ -149,6 +163,7 @@ class App extends Component<Props, State> {
             <div className="mb-4 w-100">{this.renderListCard()}</div>
           </div>
           <div className="col">
+            <div className="mb-4 w-100">{this.renderLightCard()}</div>
             <div className="mb-4 w-100">{this.renderFOVCard()}</div>
             <div className="w-100">{this.renderEditCard()}</div>
           </div>

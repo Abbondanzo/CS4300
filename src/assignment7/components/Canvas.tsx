@@ -49,7 +49,7 @@ const Canvas = ({ shapes, cameraSettings, lightSettings, onClick }: Props) => {
   return (
     <canvas
       id="canvas"
-      width="500px"
+      width="570px"
       height="300px"
       className="mb-3"
       onMouseDown={onMouseDown}

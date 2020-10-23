@@ -47,5 +47,5 @@ export const DEFAULT_CAMERA_SETTINGS: CameraSettings = {
 };
 
 export const DEFAULT_LIGHT_SETTINGS: LightSettings = {
-  direction: { x: -0.4, y: -0.3, z: 0.5 },
+  direction: { x: 0.4, y: 0.3, z: -0.5 },
 };
