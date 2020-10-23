@@ -9,15 +9,13 @@ import { LightSettings } from "../Light";
 import AddShape from "./add/AddShape";
 import Canvas from "./Canvas";
 import {
-  BLUE_RECTANGLE,
   DEFAULT_CAMERA_SETTINGS,
   DEFAULT_LIGHT_SETTINGS,
-  GREEN_CUBE,
-  RED_TRIANGLE,
+  DEFAULT_SHAPES,
 } from "./constants";
 import EditShape from "./edit/EditShape";
-import CameraSettingsForm from "./form/CameraSettingsForm";
-import ShapeList from "./form/ShapeList";
+import CameraSettingsForm from "./camera/CameraSettingsForm";
+import ShapeList from "./list/ShapeList";
 
 interface Props {}
 
@@ -33,7 +31,7 @@ class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      shapes: [BLUE_RECTANGLE, RED_TRIANGLE, GREEN_CUBE],
+      shapes: DEFAULT_SHAPES,
       selectedShapeIndex: 0,
       addShapeConfig: {},
       cameraSettings: DEFAULT_CAMERA_SETTINGS,
@@ -119,7 +117,10 @@ class App extends Component<Props, State> {
 
   renderFOVCard() {
     return (
-      <Card title="Camera Settings">
+      <Card
+        title="Camera Settings"
+        subtitle="Performs translations of the world around the camera"
+      >
         <CameraSettingsForm
           cameraSettings={this.state.cameraSettings}
           onChange={(cameraSettings) => this.setState({ cameraSettings })}
@@ -132,19 +133,22 @@ class App extends Component<Props, State> {
     const { shapes, cameraSettings, lightSettings } = this.state;
     return (
       <div className="container mb-4">
-        <NavBar title="Moving the Camera in WebGL" />
+        <NavBar title="Lighting and Shading" />
         <div className="row">
           <div className="col">
-            <Canvas
-              onClick={this.onAddShape}
-              shapes={shapes}
-              cameraSettings={cameraSettings}
-              lightSettings={lightSettings}
-            />
-            {this.renderListCard()}
+            <div className="mb-4 w-100">
+              {" "}
+              <Canvas
+                onClick={this.onAddShape}
+                shapes={shapes}
+                cameraSettings={cameraSettings}
+                lightSettings={lightSettings}
+              />
+            </div>
+            <div className="mb-4 w-100">{this.renderAddCard()}</div>
+            <div className="mb-4 w-100">{this.renderListCard()}</div>
           </div>
           <div className="col">
-            <div className="mb-4 w-100">{this.renderAddCard()}</div>
             <div className="mb-4 w-100">{this.renderFOVCard()}</div>
             <div className="w-100">{this.renderEditCard()}</div>
           </div>

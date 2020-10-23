@@ -11,9 +11,13 @@ const DIMENSIONS = 3;
 export default class Scene {
   private readonly gl: WebGLRenderingContext;
   private readonly attributeCoords: number;
-  private readonly uniformMatrix: WebGLUniformLocation;
-  private readonly uniformColor: WebGLUniformLocation;
+  private readonly attributeNormals: number;
   private readonly bufferCoords: WebGLBuffer;
+  private readonly normalBuffer: WebGLBuffer;
+  private readonly uniformColor: WebGLUniformLocation;
+  private readonly uniformWorldViewProjection: WebGLUniformLocation;
+  private readonly uniformWorldInverseTranspose: WebGLUniformLocation;
+  private readonly uniformReverseLightDirectionLocation: WebGLUniformLocation;
 
   private constructor(
     canvas: HTMLCanvasElement,
@@ -30,16 +34,30 @@ export default class Scene {
     );
     this.gl.useProgram(program);
 
-    // get reference to GLSL attributes and uniforms
+    // Set up coordinate attributes for sending to each vertex
     this.attributeCoords = this.gl.getAttribLocation(program, "a_coords");
-    this.uniformMatrix = this.gl.getUniformLocation(program, "u_matrix");
-    this.uniformColor = this.gl.getUniformLocation(program, "u_color");
-
-    // initialize coordinate attribute to send each vertex to GLSL program
     this.gl.enableVertexAttribArray(this.attributeCoords);
-
-    // initialize coordinate buffer to send array of vertices to GPU
     this.bufferCoords = this.gl.createBuffer();
+
+    // Set up normals for sending to each vertex
+    this.attributeNormals = this.gl.getAttribLocation(program, "a_normals");
+    this.gl.enableVertexAttribArray(this.attributeNormals);
+    this.normalBuffer = this.gl.createBuffer();
+
+    // Grab uniform memory references
+    this.uniformColor = this.gl.getUniformLocation(program, "u_color");
+    this.uniformWorldViewProjection = this.gl.getUniformLocation(
+      program,
+      "u_worldViewProjection"
+    );
+    this.uniformWorldInverseTranspose = this.gl.getUniformLocation(
+      program,
+      "u_worldInverseTranspose"
+    );
+    this.uniformReverseLightDirectionLocation = this.gl.getUniformLocation(
+      program,
+      "u_reverseLightDirection"
+    );
 
     // configure canvas resolution and clear the canvas
     const uniformResolution = this.gl.getUniformLocation(
@@ -60,28 +78,26 @@ export default class Scene {
   }
 
   render(shapes: Canvas3D.Shape[], camera: Camera, light: Light) {
-    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
-
-    this.gl.vertexAttribPointer(
-      this.attributeCoords,
-      DIMENSIONS,
-      this.gl.FLOAT,
-      false,
-      0,
-      0
-    );
-
-    this.gl.enable(this.gl.CULL_FACE);
-    this.gl.enable(this.gl.DEPTH_TEST);
+    this.renderSetup();
 
     if (shapes.length === 0) {
       this.clearCanvas();
       return;
     }
 
+    // Apply projection matrix based on camera
     const canvas = this.gl.canvas as HTMLCanvasElement;
     const aspect = canvas.clientWidth / canvas.clientHeight;
-    const viewProjectionMatrix = camera.getViewProjectionMatrix(aspect);
+    const cameraViewProjectionMatrix = camera.getViewProjectionMatrix(aspect);
+    const worldViewProjectionMatrix = this.computeWorldViewProjectionMatrix(
+      cameraViewProjectionMatrix
+    );
+
+    // Set lighting direction
+    this.gl.uniform3fv(
+      this.uniformReverseLightDirectionLocation,
+      light.getNormalizedDirection()
+    );
 
     shapes.forEach((shape) => {
       this.gl.uniform4f(
@@ -93,8 +109,8 @@ export default class Scene {
       );
 
       // compute transformation matrix
-      const M = this.computeModelViewMatrix(shape, viewProjectionMatrix);
-      this.gl.uniformMatrix4fv(this.uniformMatrix, false, M);
+      const M = this.computeModelViewMatrix(shape, worldViewProjectionMatrix);
+      this.gl.uniformMatrix4fv(this.uniformWorldViewProjection, false, M);
 
       renderShape({
         context: this.gl,
@@ -103,6 +119,54 @@ export default class Scene {
         normalBuffer: this.normalBuffer,
       });
     });
+  }
+
+  private renderSetup() {
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.bufferCoords);
+    this.gl.vertexAttribPointer(
+      this.attributeCoords,
+      DIMENSIONS,
+      this.gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
+    this.gl.vertexAttribPointer(
+      this.attributeNormals,
+      3,
+      this.gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+    // this.gl.enable(this.gl.CULL_FACE);
+    this.gl.enable(this.gl.DEPTH_TEST);
+  }
+
+  private computeWorldViewProjectionMatrix(viewProjectionMatrix: number[]) {
+    const worldMatrix = m4.identity();
+    const worldViewProjectionMatrix = m4.multiply(
+      viewProjectionMatrix,
+      worldMatrix
+    );
+    const worldInverseMatrix = m4.inverse(worldMatrix);
+    const worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
+
+    this.gl.uniformMatrix4fv(
+      this.uniformWorldViewProjection,
+      false,
+      worldViewProjectionMatrix
+    );
+    this.gl.uniformMatrix4fv(
+      this.uniformWorldInverseTranspose,
+      false,
+      worldInverseTransposeMatrix
+    );
+
+    return worldViewProjectionMatrix;
   }
 
   private computeModelViewMatrix(

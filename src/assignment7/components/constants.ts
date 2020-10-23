@@ -10,39 +10,42 @@ const RED_RGB = hexToRgb("#FF0000");
 const GREEN_RGB = hexToRgb("#00FF00");
 const BLUE_RGB = hexToRgb("#0000FF");
 
-export const BLUE_RECTANGLE = buildShape("RECTANGLE", {
+const BLUE_CUBE = buildShape("CUBE", {
   position: ORIGIN,
   dimensions: SIZE_ONE,
   color: BLUE_RGB,
-  translation: { x: -15, y: 0, z: -20 },
+  translation: { x: 0, y: 0, z: 0 },
+  scale: { x: 15, y: 15, z: 15 },
   rotation: { x: 0, y: 0, z: 0 },
-  scale: { x: 10, y: 10, z: 10 },
 });
 
-export const RED_TRIANGLE = buildShape("TRIANGLE", {
-  position: ORIGIN,
-  dimensions: SIZE_ONE,
-  color: RED_RGB,
-  translation: { x: 15, y: 0, z: -20 },
-  scale: { x: 10, y: 10, z: 10 },
-  rotation: { x: 0, y: 0, z: 180 },
-});
-
-export const GREEN_CUBE = buildShape("CUBE", {
+const GREEN_CUBE = buildShape("CUBE", {
   position: ORIGIN,
   dimensions: SIZE_ONE,
   color: GREEN_RGB,
-  translation: { x: 0, y: 0, z: -25 },
-  scale: { x: 10, y: 10, z: 10 },
-  rotation: { x: 0, y: 45, z: 0 },
+  translation: { x: 20, y: 0, z: 0 },
+  scale: { x: 15, y: 15, z: 15 },
+  rotation: { x: 0, y: 0, z: 0 },
 });
+
+const RED_CUBE = buildShape("CUBE", {
+  position: ORIGIN,
+  dimensions: SIZE_ONE,
+  color: RED_RGB,
+  translation: { x: -20, y: 0, z: 0 },
+  scale: { x: 15, y: 15, z: 15 },
+  rotation: { x: 0, y: 0, z: 0 },
+});
+
+export const DEFAULT_SHAPES = [BLUE_CUBE, GREEN_CUBE, RED_CUBE];
 
 export const DEFAULT_CAMERA_SETTINGS: CameraSettings = {
   fovDegrees: 90,
-  translation: { x: 0, y: 0, z: 50 },
-  target: { x: 0, y: 0, z: 0 },
+  target: undefined,
+  translation: { x: -45, y: -35, z: 21 },
+  rotation: { x: 40, y: 235, z: 0 },
 };
 
 export const DEFAULT_LIGHT_SETTINGS: LightSettings = {
-  direction: { x: 0.4, y: 0.3, z: 0.5 },
+  direction: { x: -0.4, y: -0.3, z: 0.5 },
 };

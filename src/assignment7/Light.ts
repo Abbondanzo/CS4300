@@ -13,8 +13,7 @@ export default class Light {
 
   getNormalizedDirection() {
     const { x, y, z } = this.direction;
-    const source = [x, y, z];
-    return m4.normalize(source);
+    return m4.normalize([-x, -y, -z]);
   }
 
   static fromSettings(settings: LightSettings): Light {

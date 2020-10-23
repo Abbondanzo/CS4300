@@ -1,4 +1,4 @@
-import { twoDimensionConverer } from "./twoDimensionConverter";
+import { twoDimensionConverter } from "./twoDimensionConverter";
 
 export const renderRectangle = (
   gl: WebGLRenderingContext,
@@ -12,7 +12,7 @@ export const renderRectangle = (
 
   const is3D = "z" in rectangle.position;
   if (is3D) {
-    points = twoDimensionConverer(points);
+    points = twoDimensionConverter(points);
   }
 
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);

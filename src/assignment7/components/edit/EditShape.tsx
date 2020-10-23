@@ -10,17 +10,6 @@ interface Props {
 }
 
 class EditShape extends Component<Props> {
-  onFieldChange = (
-    shapeAttr: "translation" | "scale" | "rotation",
-    stateItemKey: string
-  ) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentValue = this.props.activeShape[shapeAttr];
-    const eventValue = truncate(Number(event.target.value));
-    const newValue = { ...currentValue, [stateItemKey]: eventValue };
-    const newShape = { ...this.props.activeShape, [shapeAttr]: newValue };
-    this.props.onUpdate(newShape);
-  };
-
   renderDeleteButton() {
     const onClick = (event: React.MouseEvent) => {
       event.preventDefault();
@@ -74,6 +63,9 @@ class EditShape extends Component<Props> {
   private onVectorUpdate = (key: "translation" | "scale" | "rotation") => (
     value: Canvas3D.Vector3
   ) => {
+    if (key === "rotation") {
+      value = { x: value.x % 360, y: value.y % 360, z: value.z % 360 };
+    }
     const { onUpdate, activeShape } = this.props;
     onUpdate({ ...activeShape, [key]: value });
   };

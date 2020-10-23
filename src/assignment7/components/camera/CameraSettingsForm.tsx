@@ -20,7 +20,7 @@ class CameraSettingsForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      lookAtEnabled: true,
+      lookAtEnabled: Boolean(props.cameraSettings.target),
     };
   }
 
@@ -65,7 +65,6 @@ class CameraSettingsForm extends React.Component<Props, State> {
       onChange({
         ...cameraSettings,
         target: cameraSettings.target || DEFAULT_TARGET,
-        rotation: undefined,
       });
     } else {
       onChange({
