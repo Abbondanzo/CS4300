@@ -52,6 +52,12 @@ const ASSIGNMENTS: Assignment[] = [
     description: "Modeling light in a WebGL 3D scene",
     fileName: "assignment7.html",
   },
+  {
+    title: "A8 - Texture and Animation",
+    dueDate: "Nov 19",
+    description: "Creating a simple cube and applying textures",
+    fileName: "assignment8.html",
+  },
 ];
 
 const buildLineItem = (assignment: Assignment) => {

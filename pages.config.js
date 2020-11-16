@@ -12,6 +12,9 @@ const assignments = [
   "assignment5",
   "assignment6",
   "assignment7",
+  "assignment8",
+  "home",
 ];
+const rootAssigment = "assignment8";
 
-module.exports = { assignments };
+module.exports = { assignments, rootAssigment };

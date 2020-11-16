@@ -5,13 +5,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const isDevelopment = process.env.NODE_ENV === "development";
 
 // ============================================================================
-const { assignments } = require("./pages.config");
+const { assignments, rootAssigment } = require("./pages.config");
 // ============================================================================
 
 const assignmentHTMLPlugins = assignments.map((name) => {
   return new HtmlWebpackPlugin({
     template: `./src/${name}/index.html`,
-    filename: `${name}.html`,
+    filename: rootAssigment === name ? "index.html" : `${name}.html`,
     chunks: [`${name}`],
   });
 });
@@ -64,7 +64,6 @@ module.exports = {
   },
 
   entry: {
-    home: "./src/home/index.ts",
     ...assignmentEntryPoints,
   },
 
@@ -109,11 +108,5 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/home/index.html",
-      chunks: ["home"],
-    }),
-    ...assignmentHTMLPlugins,
-  ],
+  plugins: [...assignmentHTMLPlugins],
 };
