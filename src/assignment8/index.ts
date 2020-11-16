@@ -15,23 +15,39 @@ const main = () => {
   const parameters = getProgramParameters(gl, shaderProgram);
   const buffers = initializeBuffers(gl);
 
-  drawScene(gl, parameters, buffers);
+  let then = 0;
+  let squareRotation = 0.0;
+  const render = (now: number) => {
+    now *= 0.001;
+    const deltaTime = now - then;
+    squareRotation += deltaTime;
+    then = now;
+    drawScene(gl, parameters, buffers, squareRotation);
+
+    requestAnimationFrame(render);
+  };
+  requestAnimationFrame(render);
 };
 
 const drawScene = (
   gl: WebGLRenderingContext,
   parameters: ProgramParameters,
-  buffers: Buffers
+  buffers: Buffers,
+  squareRotation: number
 ) => {
   clearScene(gl);
   const projectionMatrix = createProjectionMatrix(gl);
   const modelViewMatrix = mat4.create();
 
   mat4.translate(modelViewMatrix, modelViewMatrix, [-0.0, 0.0, -6.0]);
+  mat4.rotate(modelViewMatrix, modelViewMatrix, squareRotation, [0, 0, 1]);
+
   configurePositionBufferRead(gl, buffers, parameters);
   configureColorBufferRead(gl, buffers, parameters);
+
   gl.useProgram(parameters.program);
   setUniforms(gl, parameters, projectionMatrix, modelViewMatrix);
+
   gl.drawArrays(
     gl.TRIANGLE_STRIP,
     0, // offset
