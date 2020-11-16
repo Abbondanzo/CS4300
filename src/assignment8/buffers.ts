@@ -1,17 +1,17 @@
 export interface Buffers {
   position: WebGLBuffer;
-  color: WebGLBuffer;
+  textureCoord: WebGLBuffer;
   indices: WebGLBuffer;
 }
 
 export const initializeBuffers = (gl: WebGLRenderingContext): Buffers => {
   const positionBuffer = initializePositionBuffer(gl);
-  const colorBuffer = initializeColorBuffer(gl);
+  const textureCoordBuffer = initializeTextureBuffer(gl);
   const indexBuffer = initializeIndexBuffer(gl);
 
   return {
     position: positionBuffer,
-    color: colorBuffer,
+    textureCoord: textureCoordBuffer,
     indices: indexBuffer,
   };
 };
@@ -33,25 +33,25 @@ const initializePositionBuffer = (gl: WebGLRenderingContext) => {
   return positionBuffer;
 };
 
-const initializeColorBuffer = (gl: WebGLRenderingContext) => {
+const initializeTextureBuffer = (gl: WebGLRenderingContext) => {
+  const textureCoordBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
   // prettier-ignore
-  const faceColors = [
-    [1.0,  1.0,  1.0,  1.0], // front: white
-    [1.0,  0.0,  0.0,  1.0], // back: red
-    [0.0,  1.0,  0.0,  1.0], // top: green
-    [0.0,  0.0,  1.0,  1.0], // bottom: blue
-    [1.0,  1.0,  0.0,  1.0], // right: yellow
-    [1.0,  0.0,  1.0,  1.0], // left: purple
+  const textureCoordinates = [
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,  0.0, 1.0,
   ];
-  let colors = [];
-  faceColors.forEach((color) => {
-    colors = colors.concat(color, color, color, color);
-  });
-  const colorBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(textureCoordinates),
+    gl.STATIC_DRAW
+  );
 
-  return colorBuffer;
+  return textureCoordBuffer;
 };
 
 const initializeIndexBuffer = (gl: WebGLRenderingContext) => {
