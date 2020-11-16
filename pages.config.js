@@ -15,6 +15,6 @@ const assignments = [
   "assignment8",
   "home",
 ];
-const rootAssigment = "assignment8";
+const rootAssigment = "home";
 
 module.exports = { assignments, rootAssigment };

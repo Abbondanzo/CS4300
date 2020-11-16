@@ -1,0 +1,48 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build --if-present
+
+      - name: Stage build artifacts
+        run: |
+          mkdir docs
+          mv dist/* docs
+          git add .
+          git status
+
+      - name: Make commit message
+        run: |
+          git config --global user.name "GitHub Actions"
+          git commit -m "Deployed to production (`date '+%F %T %Z'`)"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+          branch: built
