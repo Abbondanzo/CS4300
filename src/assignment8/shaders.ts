@@ -5,7 +5,6 @@ export interface ProgramParameters {
 }
 
 export const initializeShaderProgram = (gl: WebGLRenderingContext) => {
-  // Mixing WebGL and DOM is gross, but is required by the assignment
   const vertexShaderCode = document.getElementById("vertex-shader").textContent;
   const fragmentShaderCode = document.getElementById("fragment-shader")
     .textContent;
@@ -40,6 +39,7 @@ export const getProgramParameters = (
     program: shaderProgram,
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
+      vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor"),
     },
     uniformLocations: {
       projectionMatrix: gl.getUniformLocation(
