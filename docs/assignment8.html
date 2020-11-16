@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><title>Texture and Animation</title><script id="vertex-shader" type="x-shader/x-vertex">attribute vec4 aVertexPosition;
+      attribute vec2 aTextureCoord;
+
+      uniform mat4 uModelViewMatrix;
+      uniform mat4 uProjectionMatrix;
+
+      varying highp vec2 vTextureCoord;
+
+      void main() {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vTextureCoord = aTextureCoord;
+      }</script><script id="fragment-shader" type="x-shader/x-vertex">varying highp vec2 vTextureCoord;
+
+      uniform sampler2D uSampler;
+
+      void main() {
+        gl_FragColor = texture2D(uSampler, vTextureCoord);
+      }</script></head><body><canvas id="canvas" width="640" height="480"></canvas><script src="static/js/vendors-f01bdf75334b.chunk.js"></script><script src="static/js/assignment8.js"></script></body></html>

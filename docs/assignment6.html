@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/><style>canvas {
+        border: 1px solid gray;
+        text-align: center;
+      }</style><script id="vertex-shader-3d" type="x-shader/x-vertex">attribute vec4 a_coords;
+      uniform mat4 u_matrix;
+      uniform vec4 u_color;
+      varying vec4 v_color;
+      void main() {
+        // Multiply the position by the matrix.
+        gl_Position = u_matrix * a_coords;
+        v_color = u_color;
+      }</script><script id="fragment-shader-3d" type="x-shader/x-fragment">precision mediump float;
+      varying vec4 v_color;
+      void main() {
+        gl_FragColor = v_color;
+      }</script></head><body><div id="assignment-6-container"/><script src="static/js/vendors-9dbd0afce05a.chunk.js"></script><script src="static/js/assignment6.js"></script></body></html>
