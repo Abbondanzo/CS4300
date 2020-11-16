@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV === "development";
@@ -108,5 +109,11 @@ module.exports = {
     ],
   },
 
-  plugins: [...assignmentHTMLPlugins],
+  plugins: [
+    ...assignmentHTMLPlugins,
+    !isDevelopment &&
+      new CopyWebpackPlugin({
+        patterns: [{ from: "public" }],
+      }),
+  ].filter(Boolean),
 };
