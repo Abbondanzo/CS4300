@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>Texture and Animation</title>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      attribute vec4 aVertexPosition;
+
+      uniform mat4 uModelViewMatrix;
+      uniform mat4 uProjectionMatrix;
+
+      void main() {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+      }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-vertex">
+      void main() {
+        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      }
+    </script>
   </head>
   <body>
     <canvas id="canvas" width="640" height="480"></canvas>
